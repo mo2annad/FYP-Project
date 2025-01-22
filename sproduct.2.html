@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yemenis</title>
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"/>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="img/icon.png">
+</head>
+
+<body>
+
+    <section id="header">
+        <a href="./index.html"><img loading="lazy" src="img/logo.png" class="logo" alt=""></a>
+        <div>
+            <ul id="navbar">
+                <li><a href="index.html">Home</a></li>
+                <li class="dropdown">
+                    <a>Products <i class="fa fa-angle-down"></i></a>
+                    <div class="dropdown-content">
+                        <a href="./men.html">Men</a>
+                        <a href="./women.html">Women</a>
+                        <a href="./accessories.html">Accessories</a>
+                        <a href="./shawl.html">Shawl</a>
+                    </div>
+                </li>
+                <li><a href="blog.html">Blog</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="./login.html">Login</a></li>
+                <li id="lg-bag"><a href="cart.html"><i class="far fa-shopping-bag"></i></a></li>
+                <a href="#" id="close"><i class="far fa-times"></i></a>
+            </ul>
+        </div>
+        <div id="mobile">
+            <a href="cart.html"><i class="far fa-shopping-bag"></i></a>
+            <i id="bar" class="fa fa-outdent"></i>
+        </div>
+    </section>
+
+    <section id="prodetails" class="section-p1">
+        <div class="single-pro-image">
+            <img loading="lazy" src="img/thobe/t2.jpg" width="100%" id="MainImg" alt="">
+            <div class="small-img-group">
+                <div class="small-img-col">
+                    <img loading="lazy" src="img/thobe/t2.jpg" width="100%" class="small-img" alt="">
+                </div>
+                <div class="small-img-col">
+                    <img loading="lazy" src="img/thobe/t2.1.jpg" width="100%" class="small-img" alt="">
+                </div>
+                <div class="small-img-col">
+                    <img loading="lazy" src="img/thobe/t2.2.jpg" width="100%" class="small-img" alt="">
+                </div>
+                <div class="small-img-col">
+                    <img loading="lazy" src="img/thobe/t2.3.jpg" width="100%" class="small-img" alt="">
+                </div>
+            </div>
+        </div>
+
+        <div class="single-pro-details">
+            <h6>Thobe</h6>
+            <h4>Winter colorful formal thobe</h4>
+            <div class="rating-container" data-product-id="product2">
+                <div class="stars">
+                    <i class="far fa-star" data-rating="1"></i>
+                    <i class="far fa-star" data-rating="2"></i>
+                    <i class="far fa-star" data-rating="3"></i>
+                    <i class="far fa-star" data-rating="4"></i>
+                    <i class="far fa-star" data-rating="5"></i>
+                </div>
+                <span class="rating-count">0 reviews</span>                
+            </div>
+            <h2 id="product-price">$78</h2>
+            <select id="product-size">
+                <option value="Select Size">Select Size</option>
+                <option value="Small">Small</option>
+                <option value="Medium">Medium</option>
+                <option value="Large">Large</option>
+                <option value="XL">XL</option>
+                <option value="XXL">XXL</option>
+            </select>
+            <input type="number" value="1" id="product-quantity" min="1" onchange="updatePrice()"> 
+            <button class="normal" onclick="addToCart()">Add To Cart</button>
+            <div id="success-message">
+                Item successfully added to cart!
+            </div>
+            <h4>Product Details</h4>
+            <span>Colorful winter thobe for everyday and formal 
+                use, ready to wear thobe with regular collar, 
+                hidden zipper on chest and regular sleeves with 
+                secure snap buttons to easily lift sleeves, made 
+                of high quality fabric 72% polyester 28% viscose, 
+                with anti-wrinkle feature.</span>
+        </div>
+    </section>
+
+    <section id="product1" class="section-p1">
+        <h2>Featured Products</h2>
+        <p>Collections of New Morden Design</p>
+        <div class="pro-container">
+            <div class="pro">
+                <img loading="lazy" src="img/thobe/t1.jpg" alt="" onclick="window.location.href='sproduct.1.html';">
+                <div class="des">
+                    <span>Yemenis</span>
+                    <h5>Casual colorful thobe</h5>
+                    <div class="rating-container" data-product-id="product1">
+                        <div class="stars">
+                            <i class="far fa-star" data-rating="1"></i>
+                            <i class="far fa-star" data-rating="2"></i>
+                            <i class="far fa-star" data-rating="3"></i>
+                            <i class="far fa-star" data-rating="4"></i>
+                            <i class="far fa-star" data-rating="5"></i>
+                        </div>
+                        <span class="rating-count">0 reviews</span>                
+                    </div>
+                    <h4>$78</h4>
+                </div>
+                <div class="cart-container">
+                    <a href="#" onclick="addToCartFromList(this, 'Casual colorful thobe', 78, 'img/thobe/t1.jpg'); return false;">
+                        <i class="fa fa-shopping-cart cart"></i>
+                    </a>
+                    <div class="success-message">
+                        Item added to cart!
+                    </div>
+                </div>
+            </div>
+            <div class="pro">
+                <img loading="lazy" src="img/thobe/t16.jpg" alt="" onclick="window.location.href='sproduct.16.html';">
+                <div class="des">
+                    <span>Yemenis</span>
+                    <h5>Casual colorful thobe</h5>
+                    <div class="rating-container" data-product-id="product16">
+                        <div class="stars">
+                            <i class="far fa-star" data-rating="1"></i>
+                            <i class="far fa-star" data-rating="2"></i>
+                            <i class="far fa-star" data-rating="3"></i>
+                            <i class="far fa-star" data-rating="4"></i>
+                            <i class="far fa-star" data-rating="5"></i>
+                        </div>
+                        <span class="rating-count">0 reviews</span>                
+                    </div>
+                    <h4>$78</h4>
+                </div>
+                <div class="cart-container">
+                    <a href="#" onclick="addToCartFromList(this, 'Casual colorful thobe', 78, 'img/thobe/t16.jpg'); return false;">
+                        <i class="fa fa-shopping-cart cart"></i>
+                    </a>
+                    <div class="success-message">
+                        Item added to cart!
+                    </div>
+                </div>
+            </div>
+            <div class="pro">
+                <img loading="lazy" src="img/thobe/t3.jpg" alt="" onclick="window.location.href='sproduct.3.html';">
+                <div class="des">
+                    <span>Yemenis</span>
+                    <h5>Colorful winter thobe made of wool fabric</h5>
+                    <div class="rating-container" data-product-id="product3">
+                        <div class="stars">
+                            <i class="far fa-star" data-rating="1"></i>
+                            <i class="far fa-star" data-rating="2"></i>
+                            <i class="far fa-star" data-rating="3"></i>
+                            <i class="far fa-star" data-rating="4"></i>
+                            <i class="far fa-star" data-rating="5"></i>
+                        </div>
+                        <span class="rating-count">0 reviews</span>                
+                    </div>
+                    <h4>$78</h4>
+                </div>
+                <div class="cart-container">
+                    <a href="#" onclick="addToCartFromList(this, 'Colorful winter thobe made of wool fabric', 78, 'img/thobe/t3.jpg'); return false;">
+                        <i class="fa fa-shopping-cart cart"></i>
+                    </a>
+                    <div class="success-message">
+                        Item added to cart!
+                    </div>
+                </div>
+            </div>
+            <div class="pro">
+                <img loading="lazy" src="img/thobe/t4.jpg" alt="" onclick="window.location.href='sproduct.4.html';">
+                <div class="des">
+                    <span>Yemenis</span>
+                    <h5>Colorful winter thobe made of wool fabric</h5>
+                    <div class="rating-container" data-product-id="product4">
+                        <div class="stars">
+                            <i class="far fa-star" data-rating="1"></i>
+                            <i class="far fa-star" data-rating="2"></i>
+                            <i class="far fa-star" data-rating="3"></i>
+                            <i class="far fa-star" data-rating="4"></i>
+                            <i class="far fa-star" data-rating="5"></i>
+                        </div>
+                        <span class="rating-count">0 reviews</span>                
+                    </div>
+                    <h4>$78</h4>
+                </div>
+                <div class="cart-container">
+                    <a href="#" onclick="addToCartFromList(this, 'Colorful winter thobe made of wool fabric', 78, 'img/thobe/t4.jpg'); return false;">
+                        <i class="fa fa-shopping-cart cart"></i>
+                    </a>
+                    <div class="success-message">
+                        Item added to cart!
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="newsletter" class="section-p1 section-m1">
+        <div class="newstext">
+            <h4>Sign Up For Newsletters</h4>
+            <p>Get E-mail updates about our latest shop and <span>special offers.</span>
+            </p>
+        </div>
+        <div class="form">
+            <input type="email" name="email" id="newsletter-email" placeholder="Your email address" required>
+            <button class="normal" onclick="submitNewsletter()">Sign Up</button>
+        </div>
+    </section>
+
+    <footer class="section-p1">
+        <div class="col">
+            <img loading="lazy" class="logo" src="img/logo.png" alt="">
+            <h4>Contact</h4>
+            <p><strong>Address: </strong> Hostel City Street 5, Islamabad, Pakistan</p>
+            <p><strong>Phone:</strong> (+92) 317 7739457</p>
+            <p><strong>Hours:</strong> 10:00-18:00, Mon - Sat</p>
+            <div class="follow">
+                <h4>Follow us</h4>
+                <div class="icon">
+                    <i class="fab fa-facebook-f"></i>
+                    <i class="fab fa-twitter"></i>
+                    <i class="fab fa-instagram"></i>
+                    <i class="fab fa-linkedin"></i>
+                    <i class="fab fa-youtube"></i>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <h4>About</h4>
+            <a href="./about.html">About us</a>
+            <a href="#">Delivery Information</a>
+            <a href="#">Privacy Policy</a>
+            <a href="#">Terms & Conditions</a>
+            <a href="./contact.html">Contact Us</a>
+        </div>
+        <div class="col">
+            <h4>My Account</h4>
+            <a href="#newsletter">Sign In</a>
+            <a href="./cart.html">View Cart</a>
+            <a href="./cart.html">My Wishkust</a>
+            <a href="#">Teack My Order</a>
+            <a href="#">Help</a>
+        </div>
+        <div class="col install">
+            <h4>Install App</h4>
+            <p>From App Store or Google Play</p>
+            <div class="row">
+                <img loading="lazy" src="img/pay/app.jpg" alt="">
+                <img loading="lazy" src="img/pay/play.jpg" alt="">
+            </div>
+            <p>Secured Payment Gateways </p>
+            <img loading="lazy" src="img/pay/pay.png" alt="">
+        </div>
+        <div class="copyright">
+            <p>© 2024 Yemenis. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        var MainImg = document.getElementById("MainImg");
+        var smalling = document.getElementsByClassName("small-img");
+        
+        smalling[0].onclick= function(){
+            MainImg.src = smalling[0].src;
+        }
+        smalling[1].onclick= function(){
+            MainImg.src = smalling[1].src;
+        }
+        smalling[2].onclick=function(){
+            MainImg.src = smalling[2].src;
+        }
+        smalling[3].onclick= function(){
+            MainImg.src = smalling[3].src;
+        }
+    </script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script type="text/javascript" src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,420 @@
+{% extends "layout.html" %}
+{% block title %}Admin page{% endblock %}
+
+
+
+{% block head %}
+    {{ super() }}
+    <link href="{{ url_for ('static',filename='css/hospital_details.css') }}" rel="stylesheet" />
+    <link href="{{ url_for ('static',filename='css/style_table.css') }}" rel="stylesheet" />
+    <style>
+    .custom_hidden {
+        display: none !important;
+        visibility: hidden;
+    }
+
+
+    .custom-file-input {
+        display: none;
+    }
+    
+    .custom-file-label {
+        display: block;
+        width: 100%;
+        padding: 10px;
+        background-color: #f1f1f1;
+        border: 1px solid #ced4da;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 14px;
+        color: #6c757d;
+    }
+    
+    .custom-file-label::after {
+        content: "Browse"; 
+        float: right;
+        color: white;
+        background-color: #007bff;
+        padding: 5px 15px;
+        border-radius: 0 5px 5px 0;
+        border-left: 1px solid #ced4da;
+    }
+    .btn-success {
+        background-color: green;
+        color: white;
+    }
+    
+    .btn-danger {
+        background-color: red;
+        color: white;
+    }
+    .mb-8{
+        margin: 0px 0px 8px 0;
+    }
+    
+    
+</style>
+   {% endblock %}
+
+
+   {% block nav %}
+   <div class="header-bottom fadeIn">
+      <div class="container">
+       
+         <nav class="main-menu">
+            <div class="navbar-header">
+               <button type="button" class="navbar-toggle collapsed" id="navbar-toggle-btn">
+                  <i class="fa fa-bars" aria-hidden="true"></i>
+               </button>
+            </div>
+            
+            <div id="navbar" class="navbar-collapse collapse">
+               <ul class="nav navbar-nav">
+                <li><a class="active" href="/">Home</a></li>
+                <li><a data-scroll href="#ViralAlert">Viral Alert</a></li>
+                <li><a data-scroll href="#Hospitals">Hospitals</a></li>
+                <li><a data-scroll href="#hospital_services">Services</a></li>
+                <li><a data-scroll href="#getintouch">Contact Us</a></li>
+               </ul>
+            </div>
+         </nav>
+         <div class="serch-bar">
+            <div id="custom-search-input">
+                <form action="{{ url_for('search') }}" method="POST">
+               <div class="input-group col-md-12">
+                  <input type="text" class="form-control input-lg" placeholder="Search" id="search1" name="search1"/>
+                  <span class="input-group-btn">
+                     <button class="btn btn-info btn-lg" type="submit">
+                        <i class="fa fa-search" aria-hidden="true"></i>
+                     </button>
+                  </span>
+               </div>
+            </form>
+            </div>
+         </div>
+      </div>
+   </div>
+   {% endblock %}
+
+
+            {% block body %}
+       
+            
+            <div id="ViralAlert" class="section wow fadeIn">
+                <div class="container">
+
+                    <div class="heading">
+                        <span class="icon-logo"><img src="{{ url_for('static', filename='images/icon-logo.png') }}" alt="#"></span>
+                        <h2>Add New Viral Alert</h2>
+                    </div>
+            
+                    <div class="card-body custom-table-wrapper table-box">
+                        <div class="card-header custom-table-header">
+                            <i class="fas fa-table me-1"></i>
+                            <b>New Viral Alert</b>
+                        </div>
+                        <h2>Manage Viral Alert</h2>
+                        <form method="POST" action="{{ url_for('manage_viral_alert') }}">
+                            <div class="form-group mb-8">
+                                <label for="message">Viral Alert Message</label>
+                                <input type="text" class="form-control" id="message" name="message" value="{{ viral_alert.message if viral_alert else '' }}" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary ">Save Alert</button>
+                        </form>
+                            {% if viral_alert %}
+                            <form method="POST" action="{{ url_for('delete_viral_alert') }}" style="display:inline;">
+                                <button type="submit" class="btn btn-danger">Delete Alert</button>
+                            </form>
+                            {% endif %}
+                        </form>
+                    </div>
+                    </div>
+                    </div>
+
+            
+            
+            
+            <div id="Hospitals" class="section wow fadeIn">
+                <div class="container">
+                    <div class="heading">
+                        <span class="icon-logo"><img src="{{ url_for('static', filename='images/icon-logo.png') }}" alt="#"></span>
+                        <h2>The Hospitals We Have</h2>
+                    </div>
+            
+                    <div class="card-body custom-table-wrapper table-box">
+                        <div class="card-header custom-table-header">
+                            <i class="fas fa-table me-1"></i>
+                            <b>Hospitals Details</b>
+                        </div>
+            
+                        <div class="table-controls">
+                            <input type="text" id="searchInput" onkeyup="searchTable('task', 'searchInput')" placeholder="Search Services...">
+                            <div class="entries-selection">
+                                <label for="entriesPerPage">Show</label>
+                                <select id="entriesPerPage" onchange="changeEntriesPerPage('task', 'entriesPerPage', 'task-pagination', 'task-entriesInfo')">
+                                    <option value="5">5</option>
+                                    <option value="10">10</option>
+                                    <option value="15">15</option>
+                                    <option value="20">20</option>
+                                </select>
+                                <label for="entriesPerPage">entries</label>
+                            </div>
+                        </div>
+            
+                        <table class="custom-table" id="task">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>Documents</th> 
+                                    <th>Email</th>
+                                    <th>Contact</th>
+                                    <th>Address</th>
+                                    <th>Location</th>
+                                    <th>Date</th>
+                                    <th style="
+    width: 140px;">Approved</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for hospital in hospitals %}
+                                <tr>
+                                    <td>{{ hospital.id }}</td>
+                                    <td>{{ hospital.name[0:25] }}</td>
+                                    <td>
+                                        {% if hospital.documents %}
+                                            <ul>
+                                                {% for document in hospital.documents %}
+                                                <li>
+                                                    <a href="{{ url_for('static', filename='hospitalDocument/' ~ document.file_name) }}" download>
+                                                        {{ document.file_name[0:15] }}
+                                                    </a>
+                                                </li>
+                                                {% endfor %}
+                                            </ul>
+                                        {% else %}
+                                            No Documents
+                                        {% endif %}
+                                    </td>
+                                    <td>{{ hospital.email }}</td>
+                                    <td>{{ hospital.contact_no }}</td>
+                                    <td>{{ hospital.address[0:25] }}</td>
+                                    <td>{{ hospital.h_latitude }}{{ hospital.h_longitude }}</td>
+                                    <td>{{ hospital.created_at }}</td>
+                                    <td>
+                                        <button 
+                                            class="btn {{ 'btn-success' if hospital.approved else 'btn-danger' }}"
+                                            onclick="toggleApproval({{ hospital.id }})">
+                                            {{ 'Approved' if hospital.approved else 'Not Approved' }}
+                                        </button>
+                                    </td>
+                                    <td>
+                                        <a href="{{ url_for('edit_hospital', id=hospital.id) }}" class="btn btn-primary">Edit</a>
+                                        <form action="{{ url_for('delete_hospital', id=hospital.id) }}" method="post" style="display:inline;">
+                                            <button type="submit" class="btn btn-danger">Delete</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                                {% else %}
+                                <tr>
+                                    <td colspan="5">No Hospitals Available</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+
+<div class="pagination-wrapper">
+    <ul class="pagination" id="task-pagination">
+
+    </ul>
+</div>
+
+<div id="task-entriesInfo" class="entries-info">
+    Showing 1 to 5 of 46 entries
+</div>
+</div>
+        </div>
+
+     </div>
+
+  </div>
+
+
+
+            <div id="hospital_services" class="section wow fadeIn">
+                <div class="container">
+                    <div class="heading">
+                        <span class="icon-logo"><img src="{{ url_for('static', filename='images/icon-logo.png') }}" alt="#"></span>
+                        <h2>The Services We Provide</h2>
+                    </div>
+            
+                    <div class="card-body custom-table-wrapper table-box">
+                        <div class="card-header custom-table-header">
+                            <i class="fas fa-table me-1"></i>
+                            <b>Hospitals Services Details</b>
+                        </div>
+            
+
+                        <div class="table-controls">
+                            <input type="text" id="searchInput1" onkeyup="searchTable('task1', 'searchInput1')" placeholder="Search Services...">
+                            <div class="entries-selection">
+                                <label for="entriesPerPage">Show</label>
+                                <select id="entriesPerPage1" onchange="changeEntriesPerPage('task1', 'entriesPerPage1', 'task1-pagination', 'task1-entriesInfo')">
+                                    <option value="5">5</option>
+                                    <option value="10">10</option>
+                                    <option value="15">15</option>
+                                    <option value="20">20</option>
+                                </select>
+                                <label for="entriesPerPage">entries</label>
+                            </div>
+                        </div>
+            
+                        <table class="custom-table" id="task1">
+                            <thead>
+                                <tr>
+                                    <th>S_no</th>
+                                    <th>Services</th>
+                                    <th>Description</th>
+                                    <th>Charges (RS.)</th>
+                                    <th>Date</th>
+                                    <th>Hospital Name</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for service in services %}
+                                <tr>
+                                    <td>{{ service.id }}</td>
+                                    <td>{{ service.name }}</td>
+                                    <td>{{ service.description }}</td>
+                                    <td>{{ service.charges }}</td>
+                                    <td>{{ service.created_at }}</td>
+                                    <td>{{ service.hospital.name }}</td>
+                                </tr>
+                                {% else %}
+                                <tr>
+                                    <td colspan="6">No Services Available</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+
+<div class="pagination-wrapper">
+    <ul class="pagination" id="task1-pagination">
+
+    </ul>
+</div>
+
+<div id="task1-entriesInfo" class="entries-info">
+    Showing 1 to 5 of 46 entries
+</div>
+</div>
+        </div>
+     </div>
+
+  </div>
+
+
+
+
+
+  <div id="contact_form" class="section wow fadeIn">
+    <div class="container">
+        <div class="heading">
+            <span class="icon-logo"><img src="{{ url_for('static', filename='images/icon-logo.png') }}" alt="#"></span>
+            <h2>The Contacts and Feedbacks</h2>
+        </div>
+
+        <div class="card-body custom-table-wrapper table-box">
+            <div class="card-header custom-table-header">
+                <i class="fas fa-table me-1"></i>
+                <b>Feedback Details</b>
+            </div>
+
+            <div class="table-controls">
+                <input type="text" id="searchInput" onkeyup="searchTablefeedback('taskfeedback', 'searchInput')" placeholder="Search Feedback...">
+                <div class="entries-selection">
+                    <label for="entriesPerPage">Show</label>
+                    <select id="entriesPerPage" onchange="changeEntriesPerPage('taskfeedback', 'entriesPerPage', 'taskfeedback-pagination', 'taskfeedback-entriesInfo')">
+                        <option value="5">5</option>
+                        <option value="10">10</option>
+                        <option value="15">15</option>
+                        <option value="20">20</option>
+                    </select>
+                    <label for="entriesPerPage">entries</label>
+                </div>
+            </div>
+
+            <table class="custom-table" id="taskfeedback">
+                <thead>
+                    <tr>
+                        <th style="width: 70px;">S.no</th>
+                        <th>Name</th>
+                        <th>Email</th> 
+                        <th>Phone</th>
+                        <th>Subject</th>
+                        <th>Message</th>
+                        <th style="width: 100px;">Usertype</th>
+                        <th>Date</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for contact in Contact_Form%}
+                    <tr>
+                        <td>{{ loop.index }}</td>
+                        <td>{{ contact.name }}</td>
+                        <td>{{ contact.email }}</td>
+                        <td>{{ contact.phone }}</td>
+                        <td>{{ contact.subject }}</td>
+                        <td>{{ contact.message }}</td>
+                        <td>{{ contact.usertype }}</td>
+                        <td>{{ contact.created_at.strftime('%Y-%m-%d') }}</td>
+                        <td>
+                            <form action="{{ url_for('delete_contact', id=contact.id) }}" method="post" style="display:inline;">
+                                <button type="submit" class="btn btn-danger">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="10">No Contacts Available</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+<div class="pagination-wrapper">
+<ul class="pagination" id="taskfeedback-pagination">
+
+</ul>
+</div>
+
+<div id="taskfeedback-entriesInfo" class="entries-info">
+Showing 1 to 5 of 46 entries
+</div>
+</div>
+</div>
+
+</div>
+
+</div>
+            
+            
+                {% endblock %}
+                
+
+   {% block footer %}
+   <script>
+    function toggleApproval(hospitalId) {
+        fetch(/approve_hospital/${hospitalId}, {
+            method: 'POST'
+        }).then(response => {
+            if (response.ok) {
+                window.location.reload();
+            }
+        });
+    }
+</script>
+
+   {% endblock %}

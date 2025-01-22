@@ -1,0 +1,655 @@
+:root {
+    --primary-color: #2c3e50;
+    --secondary-color: #3498db;
+    --background-color: #f5f6fa;
+    --text-color: #2c3e50;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: var(--background-color);
+}
+
+.admin-container {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* Sidebar Styles */
+.sidebar {
+    width: 250px;
+    background-color: var(--primary-color);
+    color: white;
+    padding: 20px;
+}
+
+.logo {
+    font-size: 24px;
+    padding: 20px 0;
+    text-align: center;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.sidebar nav ul {
+    list-style: none;
+    margin-top: 20px;
+}
+
+.sidebar nav ul li a {
+    color: white;
+    text-decoration: none;
+    padding: 12px 15px;
+    display: block;
+    margin: 5px 0;
+    border-radius: 5px;
+    transition: 0.3s;
+}
+
+.sidebar nav ul li a:hover,
+.sidebar nav ul li a.active {
+    background-color: var(--secondary-color);
+}
+
+.sidebar nav ul li a i {
+    margin-right: 10px;
+}
+
+/* Main Content Styles */
+.main-content {
+    flex: 1;
+    padding: 20px;
+}
+
+/* New Header Styles */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 25px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    margin-bottom: 25px;
+}
+
+.search-bar {
+    position: relative;
+    width: 300px;
+}
+
+.search-bar input {
+    width: 100%;
+    padding: 10px 15px;
+    padding-left: 40px;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 14px;
+    transition: all 0.3s ease;
+}
+
+.search-bar input:focus {
+    border-color: var(--secondary-color);
+    box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.1);
+    outline: none;
+}
+
+.search-bar i {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #999;
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.notification-icon {
+    position: relative;
+    padding: 8px;
+    cursor: pointer;
+    background: #f8f9fa;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.notification-icon:hover {
+    background: #edf2f7;
+}
+
+.notification-icon i {
+    font-size: 18px;
+    color: #4a5568;
+}
+
+.notification-count {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background: #e53e3e;
+    color: white;
+    border-radius: 50%;
+    padding: 2px 6px;
+    font-size: 11px;
+    font-weight: bold;
+    border: 2px solid white;
+}
+
+/* Main container for the popup */
+.popup-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8); /* Darker overlay */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    animation: fadeIn 0.3s ease-in-out; /* Fade-in animation */
+}
+
+/* Content of the popup */
+.popup-content {
+    background: #fff;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1); /* Larger, softer shadow */
+    text-align: center;
+    width: 80%;
+    max-width: 500px; /* Limit the max width */
+    transition: transform 0.3s ease-in-out; /* Smooth scaling on open */
+    animation: slideUp 0.5s ease-out; /* Slide up animation */
+}
+
+/* Title of the popup */
+.popup-content h2 {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 1.6rem;
+    color: #333;
+    margin-bottom: 15px;
+}
+
+/* Input fields */
+.popup-content input {
+    display: block;
+    margin: 15px auto;
+    padding: 12px 15px;
+    width: 100%;
+    max-width: 400px;
+    border-radius: 10px;
+    border: 1px solid #ddd;
+    font-size: 1rem;
+    transition: border 0.3s ease, box-shadow 0.3s ease; /* Smooth transitions */
+    box-sizing: border-box;
+}
+
+/* Input field focus effect */
+.popup-content input:focus {
+    border-color: #0066cc; /* Blue border on focus */
+    box-shadow: 0 0 8px rgba(0, 102, 204, 0.3); /* Blue glow effect */
+    outline: none;
+}
+
+/* Submit button */
+.popup-content button {
+    background-color: #0066cc;
+    color: #fff;
+    border: none;
+    padding: 12px 20px;
+    font-size: 1rem;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    margin-top: 20px;
+    width: 100%;
+    max-width: 400px;
+}
+
+/* Button hover effect */
+.popup-content button:hover {
+    background-color: #005bb5;
+    transform: translateY(-3px); /* Slight hover lift effect */
+}
+
+/* Close button (X) in the top-right corner */
+.popup-close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: transparent;
+    border: none;
+    color: #333;
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+/* Close button hover effect */
+.popup-close:hover {
+    color: #0066cc;
+}
+
+/* Fade-in animation for the popup */
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+/* Slide-up animation for the popup content */
+@keyframes slideUp {
+    0% {
+        transform: translateY(50px);
+    }
+    100% {
+        transform: translateY(0);
+    }
+}
+
+/* Base button styling for both Delete and Edit buttons */
+button {
+    padding: 12px 20px;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 30px;
+    cursor: pointer;
+    border: none;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px; /* Space between icon and text */
+    margin: 10px;
+}
+
+/* Edit button specific styles */
+.edit-button {
+    background-color: #28a745; /* Green for edit */
+    color: white;
+}
+
+/* Delete button specific styles */
+.delete-button {
+    background-color: #dc3545; /* Red for delete */
+    color: white;
+}
+
+/* Hover effect for buttons */
+button:hover {
+    transform: translateY(-3px); /* Lift effect */
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1); /* Light shadow for hover */
+}
+
+/* Hover effect for Edit button */
+.edit-button:hover {
+    background-color: #218838; /* Darker green on hover */
+}
+
+/* Hover effect for Delete button */
+.delete-button:hover {
+    background-color: #c82333; /* Darker red on hover */
+}
+
+/* Add icon next to the text in the button */
+button i {
+    font-size: 1.2rem;
+}
+
+/* Optional: Add icons to buttons */
+.edit-button::before {
+    content: '✏️'; /* Pencil icon for editing */
+}
+
+.delete-button::before {
+    content: '🗑️'; /* Trash can icon for deleting */
+}
+
+
+.admin-profile {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 5px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.admin-profile:hover {
+    background: #f8f9fa;
+}
+
+.admin-profile img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #e2e8f0;
+}
+
+.admin-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.admin-name {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-color);
+}
+
+.admin-role {
+    font-size: 12px;
+    color: #718096;
+}
+
+/* Products Section */
+.section {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    margin-top: 20px;
+}
+
+.add-btn {
+    background-color: var(--secondary-color);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-bottom: 20px;
+}
+
+/* Modal Styles */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+}
+
+.modal-content {
+    background-color: white;
+    margin: 7% auto;
+    padding: 20px;
+    width: 50%;
+    border-radius: 10px;
+}
+
+.close {
+    float: right;
+    cursor: pointer;
+    font-size: 24px;
+}
+
+/* Form Styles */
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+form input,
+form textarea {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+form button {
+    background-color: var(--secondary-color);
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/* Add these new styles */
+.product-categories {
+    margin-bottom: 20px;
+    display: flex;
+    gap: 10px;
+}
+
+.category-btn {
+    padding: 8px 16px;
+    border: 1px solid var(--secondary-color);
+    background: white;
+    color: var(--secondary-color);
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.category-btn.active {
+    background: var(--secondary-color);
+    color: white;
+}
+
+/* Updated height styles for product card */
+.product-card {
+    width: 100%;
+    height: auto;
+    min-height: 80px;
+    padding: 10px;
+    margin: 5px 0;
+    display: flex;
+    align-items: center;
+    background: white;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.product-card img {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 4px;
+    margin-right: 15px;
+}
+
+.product-info {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    height: auto;
+    padding: 0;
+}
+
+.product-name {
+    flex: 2;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.product-price {
+    flex: 1;
+    font-size: 14px;
+    color: #e44d26;
+    font-weight: 500;
+}
+
+.product-description {
+    flex: 3;
+    font-size: 13px;
+    color: #666;
+}
+
+.product-actions {
+    display: flex;
+    gap: 8px;
+    margin-left: 15px;
+}
+
+.edit-btn, .delete-btn {
+    padding: 5px 10px;
+    font-size: 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.edit-btn {
+    background: #4CAF50;
+    color: white;
+}
+
+.delete-btn {
+    background: #f44336;
+    color: white;
+}
+
+/* Hover effect */
+.product-card:hover {
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    transform: translateY(-2px);
+}
+
+.item-name,
+.item-size,
+.item-price,
+.item-type {
+    font-size: 20px; /* Smaller font size */
+    color: #000000; /* Darker text color for better readability */
+    margin: 5px 0; /* Add some margin for spacing */
+}
+
+/* Main container for the order */
+.order-card {
+    background: #f9f9f9;
+    border: 1px solid #e0e0e0;
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.order-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Order ID and status styling */
+.order-id {
+    font-size: 1.5em;
+    font-weight: 600;
+    color: #333;
+}
+
+.order-status {
+    font-size: 0.9em;
+    font-weight: 400;
+    color: #4caf50; /* Green for "Completed" */
+}
+
+.order-total, .order-date {
+    font-size: 1em;
+    margin: 5px 0;
+    color: #555;
+}
+
+/* Order items container */
+.order-items {
+    margin-top: 15px;
+    padding: 15px;
+    background: #fff;
+    border-radius: 8px;
+    border: 1px solid #e0e0e0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+/* Individual order item card */
+.order-item-card {
+    background: #f3f4f6;
+    border-radius: 8px;
+    padding: 10px 15px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.order-item-card:hover {
+    background: #ebedf0;
+}
+
+/* Styling for text inside the order items */
+.product-name, .product-quantity, .product-subtotal {
+    font-size: 0.9em;
+    margin: 5px 0;
+    color: #444;
+}
+
+.product-name strong {
+    color: #222;
+}
+
+.product-subtotal strong {
+    color: #007bff; /* Highlight subtotal */
+}
+.status-buttons {
+    margin-top: 15px;
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.status-btn {
+    padding: 8px 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.9em;
+    transition: all 0.3s ease;
+}
+
+.status-btn:hover {
+    transform: scale(1.05);
+}
+
+.status-btn:nth-child(1) {
+    background-color: #ff9800; /* Pending: Orange */
+    color: white;
+}
+
+.status-btn:nth-child(2) {
+    background-color: #03a9f4; /* Processing: Blue */
+    color: white;
+}
+
+.status-btn:nth-child(3) {
+    background-color: #ffc107; /* Shipped: Yellow */
+    color: black;
+}
+
+.status-btn:nth-child(4) {
+    background-color: #4caf50; /* Delivered: Green */
+    color: white;
+}
+
+.cancel-btn {
+    background-color: #f44336; /* Canceled: Red */
+    color: white;
+}

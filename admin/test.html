@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Upload</title>
+</head>
+<body>
+    <h1>Upload Images</h1>
+    <form id="imageUploadForm">
+        <label for="fileInput">Select images to upload:</label><br>
+        <input type="file" id="fileInput" name="files" multiple accept="image/*"><br><br>
+        <button type="submit">Upload</button>
+    </form>
+
+    <script type="module">
+        e.preventDefault()
+
+        const form = document.getElementById('imageUploadForm');
+        const fileInput = document.getElementById('fileInput');
+        e.preventDefault()
+
+        form.addEventListener('submit', async (event) => {
+            event.preventDefault();
+            console.log("Form submission intercepted");
+
+            // Prepare the FormData object
+            const imageFormData = new FormData();
+            for (const file of fileInput.files) {
+                imageFormData.append('image', file);
+            }
+
+            e.preventDefault()
+            const requestOptions = {
+                method: "POST",
+                body: imageFormData,
+                redirect: "follow"
+            };
+            e.preventDefault()
+
+            try {
+                const response = await fetch("http://localhost:3000/upload-multiple", requestOptions);
+
+                // Check if the response is successful
+                if (response.ok) {
+                    console.log("Images uploaded successfully:", await response.json());
+                } else {
+                    console.error("Failed to upload images:", response.statusText);
+                }
+            } catch (error) {
+                console.error("Error uploading images:", error);
+            }
+        });
+
+        form.onsubmit = (e) => {
+            e.preventDefault();
+        };
+    </script>
+</body>
+</html>

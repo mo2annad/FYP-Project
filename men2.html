@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yemenis</title>
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"/>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="img/icon.png">
+</head>
+
+<body>
+
+    <section id="header">
+        <a href="./index.html"><img loading="lazy" src="img/logo.png" class="logo" alt=""></a>
+        <div>
+            <ul id="navbar">
+                <li><a href="index.html">Home</a></li>
+                <li class="dropdown">
+                    <a>Products <i class="fa fa-angle-down"></i></a>
+                    <div class="dropdown-content">
+                        <a class="active" href="./men.html">Men</a>
+                        <a href="./women.html">Women</a>
+                        <a href="./accessories.html">Accessories</a>
+                        <a href="./shawl.html">Shawl</a>
+                    </div>
+                </li>
+                <li><a href="blog.html">Blog</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="./login.html">Login</a></li>
+                <li id="lg-bag"><a href="cart.html"><i class="far fa-shopping-bag"></i></a></li>
+                <a href="#" id="close"><i class="far fa-times"></i></a>
+            </ul>
+        </div>
+        <div id="mobile">
+            <a href="cart.html"><i class="far fa-shopping-bag"></i></a>
+            <i id="bar" class="fa fa-outdent"></i>
+        </div>
+    </section>
+
+    <section id="page-header">
+        <h2>New designs, new collections</h2>
+        <p>Save more with coupons and enjoy discounts of up to 70%!</p>
+    </section>
+
+    <section id="product1" class="section-p1">
+        <div class="pro-container">
+            <!-- Products will be added here -->
+        </div>
+    </section>
+
+    <section id="pagination" class="section-p1">
+        <a href="./men.html">1</a>
+        <a href="./men2.html">2</a>
+        <a href="#"><i class="fa fa-long-arrow-alt-right"></i></a>
+    </section>
+
+    <section id="newsletter" class="section-p1 section-m1">
+        <div class="newstext">
+            <h4>Sign Up For Newsletters</h4>
+            <p>Get E-mail updates about our latest shop and <span>special offers.</span>
+            </p>
+        </div>
+        <div class="form">
+            <input type="email" name="email" id="newsletter-email" placeholder="Your email address" required>
+            <button class="normal" onclick="submitNewsletter()">Sign Up</button>
+        </div>
+    </section>
+
+    <footer class="section-p1">
+        <div class="col">
+            <img loading="lazy" class="logo" src="img/logo.png" alt="">
+            <h4>Contact</h4>
+            <p><strong>Address: </strong> Hostel City Street 5, Islamabad, Pakistan</p>
+            <p><strong>Phone:</strong> (+92) 317 7739457</p>
+            <p><strong>Hours:</strong> 10:00-18:00, Mon - Sat</p>
+            <div class="follow">
+                <h4>Follow us</h4>
+                <div class="icon">
+                    <i class="fab fa-facebook-f"></i>
+                    <i class="fab fa-twitter"></i>
+                    <i class="fab fa-instagram"></i>
+                    <i class="fab fa-linkedin"></i>
+                    <i class="fab fa-youtube"></i>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <h4>About</h4>
+            <a href="./about.html">About us</a>
+            <a href="#">Delivery Information</a>
+            <a href="#">Privacy Policy</a>
+            <a href="#">Terms & Conditions</a>
+            <a href="./contact.html">Contact Us</a>
+        </div>
+        <div class="col">
+            <h4>My Account</h4>
+            <a href="#newsletter">Sign In</a>
+            <a href="./cart.html">View Cart</a>
+            <a href="./cart.html">My Wishkust</a>
+            <a href="#">Teack My Order</a>
+            <a href="#">Help</a>
+        </div>
+        <div class="col install">
+            <h4>Install App</h4>
+            <p>From App Store or Google Play</p>
+            <div class="row">
+                <img loading="lazy" src="img/pay/app.jpg" alt="">
+                <img loading="lazy" src="img/pay/play.jpg" alt="">
+            </div>
+            <p>Secured Payment Gateways </p>
+            <img loading="lazy" src="img/pay/pay.png" alt="">
+        </div>
+        <div class="copyright">
+            <p>© 2024 Yemenis. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <div id="scroll-top">
+        <i class="fas fa-arrow-up"></i>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script type="text/javascript" src="script.js"></script>
+    <script>
+    // Handle failed updates
+    window.addEventListener('unhandledrejection', function(event) {
+        alert('Failed to save changes. Please try again.');
+        console.error('Error:', event.reason);
+    });
+</script>
+</body>
+</html>

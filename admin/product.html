@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Page</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="product.js" type="module"></script>
+
+</head>
+
+<body>
+    <h1>Product Page</h1>
+    <div id="order-filter-section" class="filter-section">
+        <button class="order-filter-btn active" data-status="all" aria-pressed="true">All</button>
+        <button class="order-filter-btn" data-status="pending" aria-pressed="false">Pending</button>
+        <button class="order-filter-btn" data-status="processing" aria-pressed="false">Processing</button>
+        <button class="order-filter-btn" data-status="shipped" aria-pressed="false">Shipped</button>
+        <button class="order-filter-btn" data-status="completed" aria-pressed="false">Completed</button>
+        <button class="order-filter-btn" data-status="canceled" aria-pressed="false">Canceled</button>
+    </div>
+    
+    
+    <div id="orders-section">
+        <!-- Orders will be dynamically inserted here -->
+    </div>
+    
+</body>
+</html>

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="admin-container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="logo">Admin Panel</div>
+            <nav>
+                <ul>
+                    <li><a href="#dashboard" class="active"><i class="fas fa-home"></i> Dashboard</a></li>
+                    <li><a href="#products" onclick="location.href='product.html'"><i class="fas fa-box"></i> Products</a></li>
+                    <li><a href="#featured"><i class="fas fa-star"></i> Featured</a></li>
+                    <li><a href="#promotions"><i class="fas fa-percentage"></i> Promotions</a></li>
+                    <li><a href="#contacts"><i class="fas fa-address-book"></i> Contacts</a></li>
+                    <li><a href="#notifications"><i class="fas fa-bell"></i> Notifications</a></li>
+                </ul>
+            </nav>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <div class="header">
+                <div class="search-bar">
+                    <input type="text" placeholder="Search...">
+                    <i class="fas fa-search"></i>
+                </div>
+                <div class="header-right">
+                    <div class="notification-icon">
+                        <i class="fas fa-bell"></i>
+                        <span class="notification-count">3</span>
+                    </div>
+                    <div class="admin-profile">
+                        <img src="/img/icon.png" alt="Admin">
+                        <div class="admin-info">
+                            <span class="admin-name">Mohannad Abdul Wahed</span>
+                            <span class="admin-role">Super Admin</span>
+                        </div>
+                    </div>
+                </div>
+            </div> 
+
+            <!-- Products Section -->
+            <div class="section" id="products-section">
+
+                <h2>Product Management</h2>
+                <div class="product-categories">
+                    <button class="category-btn active" data-category="men">Men</button>
+                    <button class="category-btn" data-category="women">Women</button>
+                    <button class="category-btn" data-category="shawl">Shawl</button>
+                    <button class="category-btn" data-category="accessories">Accessories</button>
+                </div>
+
+                <div class="section2" id="products-section2"></div>
+                
+                <button class="add-btn" onclick="showAddProductModal()">Add New Product</button>
+                
+            <!-- Add Product Modal -->
+            <div id="addProductModal" class="modal">
+                <div class="modal-content">
+                    <span class="close">&times;</span>
+                    <h2>Add New Product</h2>
+                    <form id="addProductForm">
+                        <input type="text" name="name" placeholder="Product Name" required>
+                        <input type="number" name="price" placeholder="Price" required>
+                        <select name="size" required>
+                            <option value="">Select Size</option>
+                            <option value="S">S</option>
+                            <option value="M">M</option>
+                            <option value="L">L</option>
+                            <option value="XL">XL</option>
+                            <option value="XXL">XXL</option>
+                        </select>
+                        <select name="type" required>
+                            <option value="">Select Category</option>
+                            <option value="men">Men</option>
+                            <option value="women">Women</option>
+                            <option value="shawl">Shawl</option>
+                            <option value="accessories">Accessories</option>
+                        </select>
+                        <textarea name="description" placeholder="Description" required></textarea>
+                        <input type="file" name="image" accept="image/*" required>
+                        <button type="submit">Add Product</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="admin.js"></script>
+    <script src="../auth.js" type="module"></script>
+    <script>
+        // Handle failed updates
+        window.addEventListener('unhandledrejection', function(event) {
+            alert('Failed to save changes. Please try again.');
+            console.error('Error:', event.reason);
+        });
+    </script>
+</body>
+</html> 

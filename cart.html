@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yemenis</title>
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"/>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="img/icon.png">
+</head>
+
+<body>
+
+    <section id="header">
+        <a href="./index.html"><img loading="lazy" src="img/logo.png" class="logo" alt=""></a>
+        <div>
+            <ul id="navbar">
+                <li><a href="index.html">Home</a></li>
+                <li class="dropdown">
+                    <a>Products <i class="fa fa-angle-down"></i></a>
+                    <div class="dropdown-content">
+                        <a href="./men.html">Men</a>
+                        <a href="./women.html">Women</a>
+                        <a href="./accessories.html">Accessories</a>
+                        <a href="./shawl.html">Shawl</a>
+                    </div>
+                </li>
+                <li><a href="blog.html">Blog</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="./login.html">Login</a></li>
+                <li id="lg-bag"><a class="active" href="cart.html"><i class="far fa-shopping-bag"></i></a></li>
+                <a href="#" id="close"><i class="far fa-times"></i></a>
+            </ul>
+        </div>
+        <div id="mobile">
+            <a class="active" href="cart.html"><i class="far fa-shopping-bag"></i></a>
+            <i id="bar" class="fa fa-outdent"></i>
+        </div>
+    </section>
+
+    <section id="page-header" class="cart-header">
+        <h2>Wishlist</h2>
+        <p>Add your favorites to your wishlist!</p>
+    </section>
+
+    <section id="cart" class="section-p1">
+        <div id="empty-cart-message">
+            <h2>Your Cart is Empty</h2>
+            <p>Looks like you haven't added any items to your cart yet.</p>
+            <a href="./index.html#product1" class="normal">Continue Shopping</a>
+        </div>
+        <div class="cart-table-container">
+            <table width="100%" id="cart-table">
+                <thead>
+                    <tr>
+                        <td>Remove</td>
+                        <td>Image</td>
+                        <td>Product</td>
+                        <td>Size</td>
+                        <td>Price</td>
+                        <td>Quantity</td>
+                        <td>Subtotal</td>
+                    </tr>
+                </thead>
+                <tbody id="cart-items">
+                    <!-- Cart items will be dynamically loaded here -->
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <section id="cart-add" class="section-p1">
+        <div id="coupon">
+            <h3>Apply Coupon</h3>
+            <div>
+                <input type="text" id="couponCode" placeholder="Enter Your Coupon">
+                <button class="normal" id="applyCoupon">Apply</button>
+            </div>
+        </div>
+
+        <div id="subtotal">
+            <h3>Cart Totals</h3>
+            <table>
+                <tr>
+                    <td>Cart Subtotal</td>
+                    <td>$00.00</td>
+                </tr>
+                <tr>
+                    <td>Shipping</td>
+                    <td id="shipping-cost"></td>
+                </tr>
+                <tr>
+                    <td><strong>Total</strong></td>
+                    <td><strong id="final-total">$00.00</strong></td>
+                </tr>
+            </table>
+            <button class="normal">Proceed to checkout</button>
+        </div>
+    </section>
+
+    <footer class="section-p1">
+        <div class="col">
+            <img loading="lazy" class="logo" src="img/logo.png" alt="">
+            <h4>Contact</h4>
+            <p><strong>Address: </strong> Hostel City Street 5, Islamabad, Pakistan</p>
+            <p><strong>Phone:</strong> (+92) 317 7739457</p>
+            <p><strong>Hours:</strong> 10:00-18:00, Mon - Sat</p>
+            <div class="follow">
+                <h4>Follow us</h4>
+                <div class="icon">
+                    <i class="fab fa-facebook-f"></i>
+                    <i class="fab fa-twitter"></i>
+                    <i class="fab fa-instagram"></i>
+                    <i class="fab fa-linkedin"></i>
+                    <i class="fab fa-youtube"></i>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <h4>About</h4>
+            <a href="./about.html">About us</a>
+            <a href="#">Delivery Information</a>
+            <a href="#">Privacy Policy</a>
+            <a href="#">Terms & Conditions</a>
+            <a href="#">Contact Us</a>
+        </div>
+        <div class="col">
+            <h4>My Account</h4>
+            <a href="#newsletter">Sign In</a>
+            <a href="./cart.html">View Cart</a>
+            <a href="./cart.html">My Wishkust</a>
+            <a href="#">Teack My Order</a>
+            <a href="#">Help</a>
+        </div>
+        <div class="col install">
+            <h4>Install App</h4>
+            <p>From App Store or Google Play</p>
+            <div class="row">
+                <img loading="lazy" src="img/pay/app.jpg" alt="">
+                <img loading="lazy" src="img/pay/play.jpg" alt="">
+            </div>
+            <p>Secured Payment Gateways </p>
+            <img loading="lazy" src="img/pay/pay.png" alt="">
+        </div>
+        <div class="copyright">
+            <p>© 2024 Yemenis. All rights reserved.</p>
+        </div>
+    </footer>
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script type="text/javascript" src="script.js"></script>
+    <script>
+        $(document).ready(function() {
+            // Load cart items when page loads
+            loadCartItems();
+            
+            function loadCartItems() {
+                const cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+                const tbody = $('#cart-items');
+                const emptyMessage = $('#empty-cart-message');
+                const cartTable = $('#cart-table');
+                const cartAdd = $('#cart-add');
+                
+                tbody.empty();
+                
+                if (cartItems.length === 0) {
+                    emptyMessage.show();
+                    cartTable.hide();
+                    cartAdd.hide();
+                    return;
+                }
+                
+                emptyMessage.hide();
+                cartTable.show();
+                cartAdd.show();
+                
+                cartItems.forEach((item, index) => {
+                    const row = `
+                        <tr>
+                            <td><a class="delete-icon" href="#" data-index="${index}"><i class="far fa-times-circle"></i></a></td>
+                            <td><img loading="lazy" src="${item.image}" alt=""></td>
+                            <td><a href="${item.productUrl}" class="product-link">${item.name}</a></td>
+                            <td>${item.size || 'N/A'}</td>
+                            <td class="price">$${item.price}</td>
+                            <td><input type="number" value="${item.quantity}" class="quantity" min="1"></td>
+                            <td class="subtotal">$${(item.price * item.quantity).toFixed(2)}</td>
+                        </tr>
+                    `;
+                    tbody.append(row);
+                });
+                
+                updateCartTotal();
+            }
+
+            // Update delete handler to work with localStorage
+            $(document).on('click', '.delete-icon', function(e) {
+                e.preventDefault();
+                const index = $(this).data('index');
+                let cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+                cartItems.splice(index, 1);
+                localStorage.setItem('cartItems', JSON.stringify(cartItems));
+                loadCartItems();
+            });
+
+            // Update quantity handler to work with localStorage
+            $(document).on('change', '.quantity', function() {
+                const row = $(this).closest('tr');
+                const index = row.find('.delete-icon').data('index');
+                const quantity = parseInt($(this).val());
+                
+                let cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+                cartItems[index].quantity = quantity;
+                cartItems[index].subtotal = cartItems[index].price * quantity;
+                
+                localStorage.setItem('cartItems', JSON.stringify(cartItems));
+                loadCartItems();
+            });
+            
+            // Initial calculation when page loads
+            updateCartTotal();
+
+            // Update subtotal when quantity changes
+            $('.quantity').on('change', function() {
+                const row = $(this).closest('tr');
+                const price = parseFloat(row.find('.price').text().replace('$', ''));
+                const quantity = parseInt($(this).val());
+                const subtotal = price * quantity;
+                row.find('.subtotal').text('$' + subtotal.toFixed(2));
+                
+                // Update cart total
+                updateCartTotal();
+            });
+
+            function updateCartTotal() {
+                let subtotal = 0;
+                // Calculate subtotal from all item subtotals
+                $('.subtotal').each(function() {
+                    subtotal += parseFloat($(this).text().replace('$', ''));
+                });
+                
+                // Update Cart Subtotal
+                $('#subtotal table tr:first td:last').text('$' + subtotal.toFixed(2));
+                
+                let total = subtotal;
+                
+                // If there's an active coupon, apply it first
+                if ($('#couponCode').val().toLowerCase() === 'yemenis') {
+                    let discount = subtotal * 0.1;
+                    total = total - discount;
+                    
+                    // Update the table to show discount
+                    let discountRow = `<tr id="discount-row">
+                        <td>Discount (10%)</td>
+                        <td>-$${discount.toFixed(2)}</td>
+                    </tr>`;
+                    
+                    $('#discount-row').remove();
+                    $('#subtotal table tr:last').before(discountRow);
+                }
+                
+                // Calculate shipping cost based on subtotal (before any discounts)
+                let shippingCost = subtotal > 100 ? 0 : 5;  // Changed from total to subtotal
+                $('#shipping-cost').text(shippingCost === 0 ? 'Free' : '$' + shippingCost.toFixed(2));
+                
+                // Add shipping to final total
+                total = total + shippingCost;
+                
+                // Update final total
+                $('#final-total').text('$' + total.toFixed(2));
+            }
+
+            // Coupon handling
+            $('#applyCoupon').on('click', function() {
+                const couponCode = $('#couponCode').val().toLowerCase();
+                if (couponCode === 'yemenis') {
+                    // Apply 10% discount
+                    let subtotal = parseFloat($('#subtotal table tr:first td:last').text().replace('$', ''));
+                    let discount = subtotal * 0.1;
+                    let total = subtotal - discount;
+                    
+                    // Update the table to show discount
+                    let discountRow = `<tr id="discount-row">
+                        <td>Discount (10%)</td>
+                        <td>-$${discount.toFixed(2)}</td>
+                    </tr>`;
+                    
+                    // Remove existing discount row if any
+                    $('#discount-row').remove();
+                    
+                    // Add new discount row before the total
+                    $('#subtotal table tr:last').before(discountRow);
+                    
+                    // Update total
+                    $('#subtotal table tr:last td:last strong').text('$' + total.toFixed(2));
+                }
+            });
+        });
+    </script>
+
+    <script>
+        // Function to fetch orders for a specific user and display them in the cart
+        async function fetchUserOrders(userId) {
+            try {
+                // Fetch orders for the specific user
+                const response = await fetch(`http://localhost:3000/api/orders/${userId}`);
+                
+                if (!response.ok) {
+                    console.error(`Failed to fetch user orders: ${response.status} ${response.statusText}`);
+                    return;
+                }
+    
+                const jsonData = await response.json();
+    
+                // Check if the response contains orders
+                if (jsonData.orders && Array.isArray(jsonData.orders) && jsonData.orders.length > 0) {
+                    const cartDiv = document.getElementById('empty-cart-message');
+    
+                    if (!cartDiv) {
+                        console.error("Element with ID 'empty-cart-message' not found.");
+                        return;
+                    }
+    
+                    // Clear any existing content in the cart div
+                    cartDiv.innerHTML = '';
+    
+                    // Dynamically create and append order details
+                    jsonData.orders.forEach(order => {
+                        const orderContainer = document.createElement('div');
+                        orderContainer.className = 'order-container';
+    
+                        // Order header
+                        const orderHeader = document.createElement('h3');
+                        orderHeader.textContent = `Order ID: ${order.id} (Status: ${order.status})`;
+                        orderContainer.appendChild(orderHeader);
+    
+                        // Order items
+                        order.orderItems.forEach(item => {
+                            const itemDiv = document.createElement('div');
+                            itemDiv.className = 'order-item card';
+                        
+                            itemDiv.innerHTML = `
+                                <div class="card-header">
+                                    <h5 class="card-title">${item.product.name}</h5>
+                                </div>
+                                <div class="card-body">
+                                    <p class="card-text"><strong>Price:</strong> $${item.product.price}</p>
+                                    <p class="card-text"><strong>Quantity:</strong> ${item.quantity}</p>
+                                    <p class="card-text"><strong>Subtotal:</strong> $${item.quantity * item.product.price}</p>
+                                </div>
+                            `;
+                        
+                            orderContainer.appendChild(itemDiv);
+                        });
+                        
+    
+                        // Order total
+                        const orderTotal = document.createElement('p');
+                        orderTotal.className = 'order-total';
+                        orderTotal.innerHTML = `<strong>Total Price:</strong> $${order.totalPrice}`;
+                        orderContainer.appendChild(orderTotal);
+    
+                        // Append the order container to the cart div
+                        cartDiv.appendChild(orderContainer);
+                    });
+                } else {
+                    // If no orders, show a message
+                    document.getElementById('empty-cart-message').innerHTML = '<p>No orders found for this user.</p>';
+                }
+            } catch (error) {
+                console.error('Error fetchinsg or displaying user orders:', error);
+            }
+        }
+    
+        const currentUserId = localStorage.getItem("currentUserId"); 
+        fetchUserOrders(currentUserId);
+    </script>
+    
+</body>
+</html>

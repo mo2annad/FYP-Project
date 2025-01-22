@@ -1,0 +1,65 @@
+// schema.prisma
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id        String    @id // No default value, so it must be provided manually
+  email     String    @unique
+  name      String?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  orders    Order[]   // One-to-many relation with Order
+  reviews   Review[]  // One-to-many relation with Review
+}
+
+model Product {
+  id          Int        @id @default(autoincrement())
+  name        String
+  price       Int
+  description String?
+  size        String?
+  type        String?
+  images      String[]
+  orderItems  OrderItem[] // One-to-many relation with OrderItem
+  isDeleted   Boolean    @default(false)
+  reviews     Review[]   // One-to-many relation with Review
+}
+
+model Order {
+  id          Int        @id @default(autoincrement())
+  userId      String
+  user        User       @relation(fields: [userId], references: [id]) // Foreign key to User
+  orderItems  OrderItem[] // One-to-many relation with OrderItem
+  totalPrice  Int
+  status      String     @default("Pending")
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+}
+
+model OrderItem {
+  id        Int      @id @default(autoincrement())
+  orderId   Int
+  order     Order    @relation(fields: [orderId], references: [id])
+  productId Int
+  product   Product  @relation(fields: [productId], references: [id])
+  quantity  Int
+  price     Int
+}
+
+model Review {
+  id        Int      @id @default(autoincrement())
+  rating    Int
+  comment   String
+  productId Int
+  userId    String   // userId should match the type of User.id, which is String
+  createdAt DateTime @default(now())
+  product   Product  @relation(fields: [productId], references: [id])
+  user      User     @relation(fields: [userId], references: [id])  // Relation to User model
+}
