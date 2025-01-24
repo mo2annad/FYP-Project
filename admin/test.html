@@ -10,51 +10,48 @@
     <form id="imageUploadForm">
         <label for="fileInput">Select images to upload:</label><br>
         <input type="file" id="fileInput" name="files" multiple accept="image/*"><br><br>
-        <button type="submit">Upload</button>
+        <button type="button" id="theButton">Upload</button>
     </form>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.2.1/axios.min.js"></script>
 
-    <script type="module">
-        e.preventDefault()
+    <script>
 
-        const form = document.getElementById('imageUploadForm');
-        const fileInput = document.getElementById('fileInput');
-        e.preventDefault()
+const form = document.getElementById('theButton');
+const fileInput = document.getElementById('fileInput');
 
-        form.addEventListener('submit', async (event) => {
-            event.preventDefault();
-            console.log("Form submission intercepted");
+form.addEventListener('click', async (event) => {
 
-            // Prepare the FormData object
-            const imageFormData = new FormData();
-            for (const file of fileInput.files) {
-                imageFormData.append('image', file);
-            }
 
-            e.preventDefault()
-            const requestOptions = {
-                method: "POST",
-                body: imageFormData,
-                redirect: "follow"
-            };
-            e.preventDefault()
+    const imageFormData = new FormData();
 
-            try {
-                const response = await fetch("http://localhost:3000/upload-multiple", requestOptions);
+for (const file of fileInput.files) {
+    imageFormData.append('image', file);
+}
 
-                // Check if the response is successful
-                if (response.ok) {
-                    console.log("Images uploaded successfully:", await response.json());
-                } else {
-                    console.error("Failed to upload images:", response.statusText);
-                }
-            } catch (error) {
-                console.error("Error uploading images:", error);
-            }
-        });
+const requestOptions = {
+    method: "POST",
+    body: imageFormData,
+    redirect: "follow",
+};
 
-        form.onsubmit = (e) => {
-            e.preventDefault();
-        };
+try {
+    const response = await fetch("http://localhost:3000/upload-multiple", requestOptions);
+    
+    if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+    
+    const data = await response.json();
+    const ImagesUrl = data.urls
+    
+    console.log(ImagesUrl);
+} catch (error) {
+    console.error("Error during file upload:", error);
+}
+
+   
+});
+
     </script>
 </body>
 </html>

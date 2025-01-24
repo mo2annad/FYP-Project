@@ -53,8 +53,16 @@ async function addProduct(formData) {
       body: imageFormData,
     };
     
-    const response = await fetch("http://localhost:3000/upload-multiple", requestOptions)
-      console.log(response)
+    const response = await fetch("http://localhost:3000/upload-multiple", requestOptions);
+    
+    if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+    
+    const data = await response.json();
+    const ImagesUrl = data.urls
+    
+    
 
      
        
@@ -65,41 +73,47 @@ async function addProduct(formData) {
     const productsGrid = document.querySelector('.products-grid');
     const activeCategory = document.querySelector('.category-btn.active')?.dataset.category || 'default';
 
-    // Create new product card
-    const productCard = document.createElement('div');
-    productCard.className = 'product-card';
-    productCard.setAttribute('data-category', activeCategory);
-    productCard.setAttribute('data-id', Date.now()); // Use timestamp as unique ID
+    // // Create new product card
+    // const productCard = document.createElement('div');
+    // productCard.className = 'product-card';
+    // productCard.setAttribute('data-category', activeCategory);
+    // productCard.setAttribute('data-id', Date.now()); // Use timestamp as unique ID
 
-    productCard.innerHTML = `
-        <div class="product-details">
-            <h3>${formData.get('name')}</h3>
-            <p class="price">$ ${formData.get('price')}</p>
-            <p class="size">Size: ${formData.get('size')}</p>
-            <p class="description">${formData.get('description')}</p>
-            <div class="admin-actions">
-                <button class="edit-btn" onclick="editProduct(this)">
-                    <i class="fas fa-edit"></i> Edit
-                </button>
-                <button class="delete-btn" onclick="deleteProduct(this)">
-                    <i class="fas fa-trash"></i> Delete
-                </button>
-            </div>
-        </div>
-    `;
+    // productCard.innerHTML = `
+    //     <div class="product-details">
+    //         <h3>${formData.get('name')}</h3>
+    //         <p class="price">$ ${formData.get('price')}</p>
+    //         <p class="size">Size: ${formData.get('size')}</p>
+    //         <p class="description">${formData.get('description')}</p>
+    //         <div class="admin-actions">
+    //             <button class="edit-btn" onclick="editProduct(this)">
+    //                 <i class="fas fa-edit"></i> Edit
+    //             </button>
+    //             <button class="delete-btn" onclick="deleteProduct(this)">
+    //                 <i class="fas fa-trash"></i> Delete
+    //             </button>
+    //         </div>
+    //     </div>
+    // `;
 
-    // Add the new card to the grid
-    productsGrid.appendChild(productCard);
+    // // Add the new card to the grid
+    // productsGrid.appendChild(productCard);
 
-    // Prepare product data for API submission
+    // // Prepare product data for API submission
+
+
+
     const productData = {
         name: formData.get('name'),
         price: formData.get('price'),
         size: formData.get('size'),
         description: formData.get('description'),
         type: activeCategory,
+        ImagesUrl: ImagesUrl,
+
     };
 
+    console.log(productData)
     // Send product data to the server
     try {
         const response = await fetch('http://localhost:3000/api/add-product', {

@@ -10,12 +10,7 @@ const cloudinary = require('cloudinary').v2;
 const app = express();
 const prisma = new PrismaClient();
 
-// Configure CORS
-app.use(cors({
-    origin: 'http://127.0.0.1:5500',
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
-    allowedHeaders: ['Content-Type'],
-}));
+app.use(cors());
 
 
 
@@ -62,25 +57,30 @@ cloudinary.config({
 // API to handle adding a product
 app.post('/api/add-product', async (req, res) => {
     try {
-        const { name, price, size, description, type } = req.body;
+        const { name, price, size, description, type, ImagesUrl } = req.body;
 
         // Validate input data
         if (!name || !price || !description || !type) {
             return res.status(400).json({ error: 'All fields are required' });
         }
 
-        // Create a new product with the provided data
+        
+
         const newProduct = await prisma.product.create({
             data: {
                 name,
-                price: parseFloat(price), // Allow decimal values for price
+                price: parseFloat(price), 
                 size,
                 description,
                 type,
+                images:ImagesUrl
             },
         });
 
-        res.status(201).json({ success: true, product: newProduct });
+        res.status(201).json({ success: true,
+             product: newProduct 
+            });
+             
     } catch (error) {
         console.error('Error adding product:', error);
         res.status(500).json({ error: 'Failed to add product' });
@@ -238,8 +238,8 @@ app.get('/api/products', async (req, res) => {
         const { type } = req.query; // Retrieve the type filter from query parameters
         const products = await prisma.product.findMany({
             where: {
-                isDeleted: false, // Exclude soft-deleted products
-                ...(type && { type }), // Apply type filter only if provided
+                isDeleted: false, 
+                ...(type && { type }), 
             },
             select: {
                 id: true,
@@ -248,6 +248,7 @@ app.get('/api/products', async (req, res) => {
                 size: true,
                 description: true,
                 type: true,
+                images:true
             },
             orderBy: {
                 id: 'desc', // Order by descending ID

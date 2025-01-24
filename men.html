@@ -138,7 +138,7 @@
         }
         async function fetchMenProducts() {
             try {
-                const response = await fetch("http://localhost:3000/api/products?type=men");
+                const response = await fetch("http://localhost:3000/api/products?type=Men");
         
                 if (!response.ok) {
                     console.error(`Failed to fetch men products: ${response.status} ${response.statusText}`);
@@ -158,11 +158,12 @@
                     panel.innerHTML = '';
         
                     jsonData.products.forEach(product => {
+                        console.log(product)
                         const productCard = document.createElement('div');
                         productCard.className = 'pro';
         
                         productCard.innerHTML = `
-                            <img loading="lazy" src="img/${product.type}/${product.name.toLowerCase().replace(/\s+/g, '')}.jpg" alt="${product.name}">
+                            <img loading="lazy" src="${product.images[0]}">
                             <div class="des">
                                 <span>${product.type.charAt(0).toUpperCase() + product.type.slice(1)}</span>
                                 <h5>${product.description || product.name}</h5>
