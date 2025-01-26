@@ -21,7 +21,7 @@ async function fetchProductDetails(productId) {
         // Fill the product details in the page
         const productDetailContainer = document.getElementById('product-detail');
         productDetailContainer.innerHTML = `
-            <img src="img/${product.type}/${product.name.toLowerCase().replace(/\s+/g, '')}.jpg" alt="${product.name}" loading="lazy">
+            <img src="${product.images[0]}" loading="lazy">
             <div class="product-info">
                 <h2>${product.name}</h2>
                 <p>${product.description}</p>

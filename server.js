@@ -268,7 +268,7 @@ app.get('/api/products/:id', async (req, res) => {
 
         // Fetch the product details using Prisma
         const product = await prisma.product.findUnique({
-            where: { id: parseInt(id) }, // Find the product by ID
+            where: { id: parseInt(id) }, 
             select: {
                 id: true,
                 name: true,
@@ -276,7 +276,7 @@ app.get('/api/products/:id', async (req, res) => {
                 size: true,
                 description: true,
                 type: true,
-                images: true, // Assuming you want to return images as well
+                images: true, 
             },
         });
 
