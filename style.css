@@ -362,24 +362,18 @@ body {
 }
 
 #product1 .pro .cart {
-    width: 40px;
-    height: 40px;
-    line-height: 40px;
+    padding: 10px 10px; /* Same padding as add-to-cart-btn */
     border-radius: 50px;
     background-color: #ebf6ea;
     font-weight: 500;
     color: #085181;
     border: 1px solid #cce7d0;
-    position: absolute;
-    bottom: 20px;
-    right: 10px;
     transition: all 0.3s ease;
 }
 
 #product1 .pro .cart:hover {
     background-color: #085181;
     color: #fff;
-    transform: rotate(360deg);
 }
 
 #banner {
@@ -642,11 +636,11 @@ footer .copyright {
 #prodetails {
     display: flex;
     justify-content: center;
-    margin-top: 20px;
+    padding: 0px 0px;
 }
 
 #prodetails .single-pro-image {
-    width: 27%;
+    width: 40%;
     margin-right: 50px;
 }
 
@@ -666,7 +660,7 @@ footer .copyright {
 }
 
 #prodetails .single-pro-details h4 {
-    padding: 40px 0 20px 0;
+    padding: 20px 0 20px 0;
 }
 
 #prodetails .single-pro-details h2 {
@@ -2009,6 +2003,7 @@ body {
 }
 
 /* Product Detail Container */
+
 #product-detail-container {
     max-width: 1000px;
     margin: 0 auto;
@@ -2104,16 +2099,62 @@ body {
 }
 
 #addToCartButton {
-    margin-top: 20px;
-    padding: 15px 30px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
+    padding: 11px 14px; /* Same padding as add-to-cart-btn */
+    background-color: #085181;
+    color: #fff;
+    border: 1px solid #cce7d0;
+    border-radius: 3px;
+    cursor: pointer; /* Pointer cursor on hover */
+    font-size: 18px; /* Font size */
+    font-weight: 500;
+    display: block;
+    margin: 30px; /* Adjust margin as needed */
+    text-align: center;
+    transition: background-color 0.3s ease; /* Transition for hover effect */
 }
 
 #addToCartButton:hover {
-    background-color: #0056b3;
+    background-color: #ebf6ea;
+    color: #085181;
+}
+
+#details{
+    display: flex;
+    justify-content: space-between;
+}
+.view-details-btn {
+    padding: 9px 10px; /* Same padding as add-to-cart-btn */
+    background-color: #ebf6ea;
+    color: #085181;
+    border: 1px solid #cce7d0;
+    border-radius: 50px;
+    cursor: pointer; /* Pointer cursor on hover */
+    font-size: 14px; /* Font size */
+    font-weight: 500;
+    transition: background-color 0.3s ease; /* Transition for hover effect */
+}
+
+.view-details-btn:hover {
+    background-color: #085181;
+    color: #fff;
+}
+
+#placeOrderButton{
+    padding: 9px 10px; /* Same padding as add-to-cart-btn */
+    background-color: #085181;
+    color: #fff;
+    border: 1px solid #cce7d0;
+    border-radius: 5px;
+    cursor: pointer; /* Pointer cursor on hover */
+    font-size: 14px; /* Font size */
+    font-weight: 500;
+    display: block;
+    margin: 20px auto; /* Adjust margin as needed */
+    text-align: center;
+    transition: background-color 0.3s ease; /* Transition for hover effect */
+}
+
+#placeOrderButton:hover {
+    background-color: #ebf6ea;
+    color: #085181;
 }

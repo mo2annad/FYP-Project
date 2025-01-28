@@ -5,25 +5,59 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Product Page</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <script src="product.js" type="module"></script>
-
 </head>
-
 <body>
-    <h1>Product Page</h1>
-    <div id="order-filter-section" class="filter-section">
-        <button class="order-filter-btn active" data-status="all" aria-pressed="true">All</button>
-        <button class="order-filter-btn" data-status="pending" aria-pressed="false">Pending</button>
-        <button class="order-filter-btn" data-status="processing" aria-pressed="false">Processing</button>
-        <button class="order-filter-btn" data-status="shipped" aria-pressed="false">Shipped</button>
-        <button class="order-filter-btn" data-status="completed" aria-pressed="false">Completed</button>
-        <button class="order-filter-btn" data-status="canceled" aria-pressed="false">Canceled</button>
-    </div>
-    
-    
-    <div id="orders-section">
-        <!-- Orders will be dynamically inserted here -->
-    </div>
-    
-</body>
+    <div class="admin-container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="logo">Admin Panel</div>
+            <nav>
+                <ul>
+                    <li><a href="#dashboard" onclick="location.href='index.html'"><i class="fas fa-home"></i> Dashboard</a></li>
+                    <li><a href="#products" onclick="location.href='product.html'" class="active"><i class="fas fa-box"></i> Products</a></li>
+                    <li><a href="#featured"><i class="fas fa-star"></i> Featured</a></li>
+                    <li><a href="#promotions"><i class="fas fa-percentage"></i> Promotions</a></li>
+                    <li><a href="#contacts"><i class="fas fa-address-book"></i> Contacts</a></li>
+                    <li><a href="#notifications"><i class="fas fa-bell"></i> Notifications</a></li>
+                </ul>
+            </nav>
+        </div>
+        <!-- Main Content -->
+        <div class="main-content">
+            <div class="header">
+                <div class="search-bar">
+                    <input type="text" placeholder="Search...">
+                    <i class="fas fa-search"></i>
+                </div>
+                <div class="header-right">
+                    <div class="notification-icon">
+                        <i class="fas fa-bell"></i>
+                        <span class="notification-count">3</span>
+                    </div>
+                <div class="admin-profile">
+                    <img src="/img/icon.png" alt="Admin">
+                    <div class="admin-info">
+                        <span class="admin-name">Mohannad Abdul Wahed</span>
+                        <span class="admin-role">Super Admin</span>
+                    </div>
+                </div>
+            </div>
+        </div> 
+            <div class="Product-Page">
+                <h1>Product Page</h1>
+                <div id="order-filter-section" class="filter-section">
+                    <button class="order-filter-btn active" data-status="all" aria-pressed="true">All</button>
+                    <button class="order-filter-btn" data-status="pending" aria-pressed="false">Pending</button>
+                    <button class="order-filter-btn" data-status="processing" aria-pressed="false">Processing</button>
+                    <button class="order-filter-btn" data-status="shipped" aria-pressed="false">Shipped</button>
+                    <button class="order-filter-btn" data-status="completed" aria-pressed="false">Completed</button>
+                    <button class="order-filter-btn" data-status="canceled" aria-pressed="false">Canceled</button>
+                </div>
+            <div id="orders-section">
+            <!-- Orders will be dynamically inserted here -->
+            </div>
+        </div>
+    </body>
 </html>

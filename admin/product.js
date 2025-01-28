@@ -80,20 +80,18 @@ window.getAllOrders = async function getAllOrders(selectedStatus = 'all') {
                 orderContainer.className = 'order-card';
 
                 orderContainer.innerHTML = `
-                <div class="order-card">
-                    <h3 class="order-id">Order ID: ${order.id} <span class="order-status">(${order.status})</span></h3>
-                    <p class="order-total"><strong>Total Price:</strong> $${order.totalPrice}</p>
-                    <p class="order-date"><strong>Ordered At:</strong> ${new Date(order.createdAt).toLocaleString()}</p>
-                    <div class="order-items">
-                        ${order.orderItems.map(item => `
-                            <div class="order-item-card">
-                                <p class="product-name"><strong>Product:</strong> ${item.product.name}</p>
-                                <p class="product-quantity"><strong>Quantity:</strong> ${item.quantity}</p>
-                                <p class="product-subtotal"><strong>Subtotal:</strong> $${item.quantity * item.product.price}</p>
-                            </div>
-                        `).join('')}
-                    </div>
-            
+                <h3 class="order-id">Order ID: ${order.id} <span class="order-status">(${order.status})</span></h3>
+                <p class="order-total"><strong>Total Price:</strong> $${order.totalPrice}</p>
+                <p class="order-date"><strong>Ordered At:</strong> ${new Date(order.createdAt).toLocaleString()}</p>
+                <div class="order-items">
+                    ${order.orderItems.map(item => `
+                        <div class="order-item-card">
+                            <p class="product-name"><strong>Product:</strong> ${item.product.name}</p>
+                            <p class="product-quantity"><strong>Quantity:</strong> ${item.quantity}</p>
+                            <p class="product-subtotal"><strong>Subtotal:</strong> $${item.quantity * item.product.price}</p>
+                        </div>
+                    `).join('')}
+                    
                     <!-- Status Buttons -->
                     <div class="status-buttons">
                         <button class="status-btn" onclick="changeOrderStatus(${order.id}, 'Pending')">Pending</button>

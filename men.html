@@ -30,12 +30,12 @@
                 <li><a href="about.html">About</a></li>
                 <li><a href="contact.html">Contact</a></li>
                 <li><a href="./login.html">Login</a></li>
-                <li id="lg-bag"><a href="cart.html"><i class="far fa-shopping-bag"></i></a></li>
+                <li id="lg-bag"><a href="cart.html"><i class="fa fa-shopping-cart cart"></i></a></li>
                 <a href="#" id="close"><i class="far fa-times"></i></a>
             </ul>
         </div>
         <div id="mobile">
-            <a href="cart.html"><i class="far fa-shopping-bag"></i></a>
+            <a href="cart.html"><i class="fa fa-shopping-cart cart"></i></a>
             <i id="bar" class="fa fa-outdent"></i>
         </div>
     </section>
@@ -119,8 +119,6 @@
         </div>
     </footer>
 
-    <button id="placeOrderButton">Place Order</button>
-
     <script type="module" src="auth.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script type="text/javascript" src="script.js"></script>
@@ -163,26 +161,29 @@
                         productCard.className = 'pro';
         
                         productCard.innerHTML = `
-                            <img loading="lazy" src="${product.images[0]}">
-                            <div class="des">
-                                <span>${product.type.charAt(0).toUpperCase() + product.type.slice(1)}</span>
-                                <h5>${product.description || product.name}</h5>
-                                <div class="star">
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                </div>
-                                <h4>$${product.price}</h4>
-                            </div>
-                            <a href="productDetail.html?id=${product.id}">
-                                <button class="view-details-btn">View Details</button>
-                            </a>
-                            <button class="add-to-cart-btn" data-product-id="${product.id}" data-product-name="${product.name}" data-product-price="${product.price}">
-                                Add to Cart
-                            </button>
-                        `;
+                
+                    <img loading="lazy" src="${product.images[0]}" alt="">
+                    <div class="des">
+                        <span>${product.type.charAt(0).toUpperCase() + product.type.slice(1)}</span>
+                        <h5>${product.description || product.name}</h5>
+                        <div class="star">
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                        </div>
+                        <h4>$${product.price}</h4>
+                    </div>
+                    <div id="details">
+                        <a href="productDetail.html?id=${product.id}">
+                            <button class="view-details-btn">View Details</button>
+                        </a>
+                        <a class="add-to-cart-btn" data-product-id="${product.id}" data-product-name="${product.name}" data-product-price="${product.price}">
+                            <i class="fa fa-shopping-cart cart"></i>
+                        </a>
+                    </div>
+                        `;  
         
                         panel.appendChild(productCard);
                     });

@@ -21,15 +21,25 @@ async function fetchProductDetails(productId) {
         // Fill the product details in the page
         const productDetailContainer = document.getElementById('product-detail');
         productDetailContainer.innerHTML = `
-            <img src="${product.images[0]}" loading="lazy">
-            <div class="product-info">
-                <h2>${product.name}</h2>
-                <p>${product.description}</p>
-                <h3>$${product.price}</h3>
-                <div class="star">
-                    ${renderStars(product.rating)}
-                </div>
-            </div>
+            <section id="prodetails" class="section-p1">
+        <img class="single-pro-image" src="${product.images[0]}" loading="lazy">
+        <div class="single-pro-details">
+            <h6>Thobe</h6>
+            <h4>${product.name}</h4>
+            <h2 id="product-price">$${product.price}</h2>
+            <select id="product-size">
+                <option value="Select Size">Select Size</option>
+                <option value="Small">Small</option>
+                <option value="Medium">Medium</option>
+                <option value="Large">Large</option>
+                <option value="XL">XL</option>
+                <option value="XXL">XXL</option>
+            </select>
+            <input type="number" value="1" id="product-quantity" min="1" onchange="updatePrice()"> 
+            <h4>Product Details</h4>
+            <span>${product.description}</span>
+        </div>
+    </section>
         `;
 
         // Fetch and display reviews

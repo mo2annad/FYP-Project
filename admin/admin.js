@@ -195,7 +195,8 @@ async function getAllProducts(selectedCategory = 'men') {
                 return;
             }
 
-            panel.innerHTML = '';
+            panel.innerHTML = '<table><thead><tr><th>Name</th><th>Size</th><th>Price</th><th>Type</th><th>Description</th><th>Actions</th></tr></thead><tbody></tbody></table>';
+            const tbody = panel.querySelector('tbody');
 
             const filteredProducts = selectedCategory === 'all'
                 ? jsonData.products
@@ -207,36 +208,19 @@ async function getAllProducts(selectedCategory = 'men') {
             }
 
             filteredProducts.forEach(product => {
-                const child = document.createElement('div');
-                child.className = 'product-card';
-                child.id = `product-${product.id}`; 
-
-                child.innerHTML = `
-                    <h2 class="item-name">Name: ${product.name}</h2>
-                    <h2 class="item-size">Size: ${product.size || 'N/A'}</h2>
-                    <h2 class="item-price">Price: $${product.price}</h2>
-                    <h2 class="item-type">Type: ${product.type || 'N/A'}</h2>
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${product.name}</td>
+                    <td>${product.size || 'N/A'}</td>
+                    <td>$${product.price}</td>
+                    <td>${product.type || 'N/A'}</td>
+                    <td>${product.description || 'N/A'}</td>
+                    <td>
+                        <button class="edit-button" onclick="openEditPopup(${product.id})">Edit</button>
+                        <button class="delete-button" onclick="deleteProduct(${product.id})">Delete</button>
+                    </td>
                 `;
-
-                // Add Delete button
-                const deleteButton = document.createElement('button');
-                deleteButton.textContent = 'Delete';
-                deleteButton.className = 'delete-button';
-                deleteButton.addEventListener('click', () => {
-                    deleteProduct(product.id);
-                });
-
-                // Add Edit button
-                const editButton = document.createElement('button');
-                editButton.textContent = 'Edit';
-                editButton.className = 'edit-button';
-                editButton.addEventListener('click', () => {
-                    openEditPopup(product);
-                });
-
-                child.appendChild(deleteButton);
-                child.appendChild(editButton);
-                panel.appendChild(child);
+                tbody.appendChild(row);
             });
         } else {
             console.error("Unexpected response structure:", jsonData);
