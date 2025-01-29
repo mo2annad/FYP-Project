@@ -209,17 +209,38 @@ async function getAllProducts(selectedCategory = 'men') {
 
             filteredProducts.forEach(product => {
                 const row = document.createElement('tr');
+                const editButton = document.createElement('button');
+                const deleteButton = document.createElement('button');
+            
                 row.innerHTML = `
                     <td>${product.name}</td>
                     <td>${product.size || 'N/A'}</td>
                     <td>$${product.price}</td>
                     <td>${product.type || 'N/A'}</td>
                     <td>${product.description || 'N/A'}</td>
-                    <td>
-                        <button class="edit-button" onclick="openEditPopup(${product.id})">Edit</button>
-                        <button class="delete-button" onclick="deleteProduct(${product.id})">Delete</button>
-                    </td>
                 `;
+                if(product.images.length > 0){
+                    product.images.forEach(image => {
+                        const productImage = document.createElement('img')
+                        productImage.src = image
+                        productImage.width = 50;
+                        row.appendChild(productImage)
+                    })
+                }
+            console.log(product)
+                editButton.textContent = 'Edit';
+                editButton.className = 'edit-button';
+                editButton.addEventListener('click', () => openEditPopup(product));
+            
+                deleteButton.textContent = 'Delete';
+                deleteButton.className = 'delete-button';
+                deleteButton.addEventListener('click', () => deleteProduct(product.id));
+            
+                const actionCell = document.createElement('td');
+                actionCell.appendChild(editButton);
+                actionCell.appendChild(deleteButton);
+                row.appendChild(actionCell);
+            
                 tbody.appendChild(row);
             });
         } else {
@@ -231,8 +252,7 @@ async function getAllProducts(selectedCategory = 'men') {
 }
 
 // Function to open edit popup
-function openEditPopup(product) {
-    // Create popup container
+async function openEditPopup(product) {
     const popup = document.createElement('div');
     popup.className = 'popup-container';
 
@@ -240,6 +260,7 @@ function openEditPopup(product) {
     popup.innerHTML = `
         <div class="popup-content">
             <h3>Edit Product</h3>
+            
             <label>Name:</label>
             <input type="text" id="edit-name" value="${product.name}" />
             <label>Size:</label>
@@ -248,32 +269,94 @@ function openEditPopup(product) {
             <input type="number" id="edit-price" value="${product.price}" />
             <label>Type:</label>
             <input type="text" id="edit-type" value="${product.type || ''}" />
+            
+            <h4>Manage Images</h4>
+            <div class="popup-images"></div>
+            <input type="file" id="new-images" multiple />
+            
             <button id="save-button">Save</button>
             <button id="cancel-button">Cancel</button>
         </div>
     `;
 
+    const imageContainer = popup.querySelector('.popup-images');
+    const newImagesInput = popup.querySelector('#new-images');
+    const currentImages = [...product.images];
+    let newImages = [];
+
+    // Display current images with delete buttons
+    if (currentImages.length > 0) {
+        currentImages.forEach((image, index) => {
+            const imageWrapper = document.createElement('div');
+            imageWrapper.className = 'image-wrapper';
+            imageWrapper.innerHTML = `
+                <img src="${image}" class="product-image" width="80" />
+                <button class="delete-image" data-index="${index}">Delete</button>
+            `;
+            imageContainer.appendChild(imageWrapper);
+        });
+    }
+
+    // Handle image deletion
+    imageContainer.addEventListener('click', (e) => {
+        if (e.target.classList.contains('delete-image')) {
+            const index = e.target.dataset.index;
+            currentImages.splice(index, 1); // Remove the image from the array
+            e.target.parentElement.remove(); // Remove the image element from the DOM
+        }
+    });
+
+    // Handle new image uploads
+    newImagesInput.addEventListener('change', () => {
+        newImages = Array.from(newImagesInput.files); // Store the selected files
+    });
+
     document.body.appendChild(popup);
 
+    // Cancel button functionality
     document.getElementById('cancel-button').addEventListener('click', () => {
         document.body.removeChild(popup);
     });
 
-    // Save button to update the product
+    // Save button functionality
     document.getElementById('save-button').addEventListener('click', async () => {
+        // Upload new images to the server
+        const imageFormData = new FormData();
+        newImages.forEach((file) => imageFormData.append('image', file));
+
+        let uploadedImageUrls = [];
+        if (newImages.length > 0) {
+            const requestOptions = {
+                method: 'POST',
+                body: imageFormData,
+            };
+
+            const response = await fetch('http://localhost:3000/upload-multiple', requestOptions);
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+
+            const data = await response.json();
+            uploadedImageUrls = data.urls; // Get uploaded image URLs
+        }
+
+        const updatedImages = [...currentImages, ...uploadedImageUrls];
+console.log(updatedImages)
         const updatedProduct = {
-            id: product.id,
             name: document.getElementById('edit-name').value,
             size: document.getElementById('edit-size').value,
             price: parseFloat(document.getElementById('edit-price').value),
-            type: document.getElementById('edit-type').value
+            type: document.getElementById('edit-type').value,
+            description: "test for now change it later from admin.js",
+            ImagesUrl: updatedImages,
         };
 
         await updateProduct(updatedProduct);
-        document.body.removeChild(popup); 
-        getAllProducts(); 
+        document.body.removeChild(popup);
+        getAllProducts();
     });
 }
+
 
 
 async function updateProduct(product) {
@@ -403,25 +486,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
-function loadSection(category) {
-    // Get the products grid
-    const productsGrid = document.querySelector('.products-grid');
-    
-    // Clear existing content
-    productsGrid.innerHTML = '';
-}
 
-// Notification System
-let notifications = [];
-
-function addNotification(message) {
-    notifications.push({
-        id: Date.now(),
-        message,
-        read: false
-    });
-    updateNotificationCount();
-}
 
 function updateNotificationCount() {
     const unreadCount = notifications.filter(n => !n.read).length;

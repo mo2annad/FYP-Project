@@ -110,8 +110,8 @@ app.delete('/api/delete-product/:id', async (req, res) => {
 
 app.put('/api/products/:id', async (req, res) => {
     try {
-        const { id } = req.params; // Get the product ID from the request params
-        const { name, price, size, type, description } = req.body; // Extract updated details from the request body
+        const { id } = req.params; 
+        const { name, price, size, type, description, ImagesUrl } = req.body; // Extract updated details from the request body
 
         // Validate input data
         if (!id || !name || !price || !type) {
@@ -121,8 +121,7 @@ app.put('/api/products/:id', async (req, res) => {
         // Parse ID and price to ensure valid data types
         const productId = parseInt(id);
         const productPrice = parseFloat(price);
-
-        // Update the product in the database
+console.log(ImagesUrl)
         const updatedProduct = await prisma.product.update({
             where: { id: productId },
             data: {
@@ -131,6 +130,7 @@ app.put('/api/products/:id', async (req, res) => {
                 size,
                 type,
                 description,
+                images:ImagesUrl
             },
         });
 
@@ -535,7 +535,6 @@ const uploadToCloudinary = async (imagePath) => {
         const cloudinaryUrl = await uploadToCloudinary(file.path);
         cloudinaryUrls.push(cloudinaryUrl);
       }
-      console.log("done")
       res.status(200).json({
         message: 'Files uploaded successfully to Cloudinary!',
         urls: cloudinaryUrls
