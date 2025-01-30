@@ -2157,4 +2157,39 @@ body {
 #placeOrderButton:hover {
     background-color: #ebf6ea;
     color: #085181;
+}#product1 {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* Automatically adjusts columns */
+    gap: 20px; /* Spacing between items */
+    padding: 20px;
 }
+
+.pro {
+    border: 1px solid #ddd;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #f9f9f9;
+}
+
+.pro img {
+    width: 100%;
+    height: auto;
+    margin-bottom: 10px;
+}
+
+.pro .des {
+    text-align: center;
+}
+
+.pro .des h5 {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.pro .des h4 {
+    font-size: 18px;
+    color: #333;
+}
+

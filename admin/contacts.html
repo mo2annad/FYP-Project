@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Users and Orders</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .user-card {
+            margin-bottom: 20px;
+            padding: 15px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .user-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+        }
+        .user-header h2 {
+            margin: 0;
+        }
+        .toggle-btn {
+            background: none;
+            border: none;
+            font-size: 1.5em;
+            cursor: pointer;
+        }
+        .orders-container {
+            margin-top: 10px;
+            display: none; /* Hidden by default */
+        }
+        .order-card {
+            margin: 10px 0;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+        .order-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+        }
+        .order-header h3 {
+            margin: 0;
+        }
+        .order-items-container {
+            margin-top: 10px;
+            display: none; /* Hidden by default */
+        }
+        .order-item {
+            margin: 10px 0;
+            padding: 10px;
+            border: 1px solid #eee;
+            border-radius: 5px;
+            background-color: #fff;
+        }
+        .product-details {
+            margin-left: 20px;
+            padding: 10px;
+            border-left: 2px solid #ccc;
+        }
+    </style>
+</head>
+<body>
+    <h1>Users and Their Orders</h1>
+    <div id="users-container"></div>
+
+    <script>
+        // Fetch data from the API
+        async function fetchUsers() {
+            try {
+                const response = await fetch('http://localhost:3000/api/users2');
+                if (!response.ok) {
+                    throw new Error('Failed to fetch data');
+                }
+                const data = await response.json();
+                displayUsers(data.users);
+            } catch (error) {
+                console.error('Error fetching users:', error);
+                document.getElementById('users-container').innerHTML = '<p>Failed to load data. Please try again later.</p>';
+            }
+        }
+
+        // Display users and their orders
+        function displayUsers(users) {
+            const container = document.getElementById('users-container');
+            container.innerHTML = ''; // Clear any existing content
+
+            users.forEach(user => {
+                // Create user card
+                const userCard = document.createElement('div');
+                userCard.className = 'user-card';
+
+                // User header with toggle button
+                const userHeader = document.createElement('div');
+                userHeader.className = 'user-header';
+                userHeader.innerHTML = `
+                    <h2>${user.name} (${user.email})</h2>
+                    <button class="toggle-btn">▼</button>
+                `;
+                userCard.appendChild(userHeader);
+
+                // Orders container (hidden by default)
+                const ordersContainer = document.createElement('div');
+                ordersContainer.className = 'orders-container';
+
+                if (user.orders && user.orders.length > 0) {
+                    user.orders.forEach(order => {
+                        // Create order card
+                        const orderCard = document.createElement('div');
+                        orderCard.className = 'order-card';
+
+                        // Order header with toggle button
+                        const orderHeader = document.createElement('div');
+                        orderHeader.className = 'order-header';
+                        orderHeader.innerHTML = `
+                            <h3>Order ID: ${order.id} | Total: $${order.totalPrice} | Status: ${order.status}</h3>
+                            <button class="toggle-btn">▼</button>
+                        `;
+                        orderCard.appendChild(orderHeader);
+
+                        // Order items container (hidden by default)
+                        const orderItemsContainer = document.createElement('div');
+                        orderItemsContainer.className = 'order-items-container';
+
+                        if (order.orderItems && order.orderItems.length > 0) {
+                            order.orderItems.forEach(item => {
+                                // Create order item
+                                const orderItem = document.createElement('div');
+                                orderItem.className = 'order-item';
+                                orderItem.innerHTML = `<p><strong>Item:</strong> ${item.quantity} x $${item.price} each</p>`;
+
+                                // Product details
+                                if (item.product) {
+                                    const productDetails = document.createElement('div');
+                                    productDetails.className = 'product-details';
+                                    productDetails.innerHTML = `
+                                        <p><strong>Product:</strong> ${item.product.name}</p>
+                                        <p><strong>Description:</strong> ${item.product.description}</p>
+                                        <p><strong>Type:</strong> ${item.product.type} | <strong>Size:</strong> ${item.product.size}</p>
+                                    `;
+                                    orderItem.appendChild(productDetails);
+                                }
+
+                                orderItemsContainer.appendChild(orderItem);
+                            });
+                        } else {
+                            orderItemsContainer.innerHTML = '<p>No items found for this order.</p>';
+                        }
+
+                        orderCard.appendChild(orderItemsContainer);
+                        ordersContainer.appendChild(orderCard);
+
+                        // Toggle order items visibility
+                        orderHeader.addEventListener('click', () => {
+                            orderItemsContainer.style.display = orderItemsContainer.style.display === 'none' ? 'block' : 'none';
+                            orderHeader.querySelector('.toggle-btn').textContent = orderItemsContainer.style.display === 'none' ? '▼' : '▲';
+                        });
+                    });
+                } else {
+                    ordersContainer.innerHTML = '<p>No orders found for this user.</p>';
+                }
+
+                userCard.appendChild(ordersContainer);
+
+                // Toggle orders visibility
+                userHeader.addEventListener('click', () => {
+                    ordersContainer.style.display = ordersContainer.style.display === 'none' ? 'block' : 'none';
+                    userHeader.querySelector('.toggle-btn').textContent = ordersContainer.style.display === 'none' ? '▼' : '▲';
+                });
+
+                container.appendChild(userCard);
+            });
+        }
+
+        // Fetch and display data when the page loads
+        fetchUsers();
+    </script>
+</body>
+</html>

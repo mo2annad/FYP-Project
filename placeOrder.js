@@ -24,6 +24,10 @@ async function placeOrder(orderItems) {
   
       const data = await response.json();
   
+      
+
+
+
       if (response.ok) {
         console.log("Order placed successfully:", data);
       } else {

@@ -5,6 +5,7 @@ const path = require('path');
 const multer = require('multer');
 const { PrismaClient } = require('@prisma/client');
 const cloudinary = require('cloudinary').v2;
+const nodemailer = require("nodemailer");
 
 
 const app = express();
@@ -12,7 +13,91 @@ const prisma = new PrismaClient();
 
 app.use(cors());
 
+const checkoutEmailTemplate = (userName) => `
+  <h1>Thank you for your order, ${userName}!</h1>
+  <p>Your order has been successfully processed and is being prepared for shipment.</p>
+  <p>We will notify you once your order has been shipped.</p>
+  <p>Thank you for shopping with us!</p>
+`;
 
+const shippedEmailTemplate = (userName, trackingNumber) => `
+  <h1>Your order has been shipped, ${userName}!</h1>
+  <p>Your order is on its way. Here is your tracking number: <strong>${trackingNumber}</strong>.</p>
+  <p>You can track your order using the following link: <a href="https://www.example.com/track">Track Order</a>.</p>
+  <p>Thank you for shopping with us!</p>
+`;
+
+const deliveredEmailTemplate = (userName) => `
+  <h1>Your order has been delivered, ${userName}!</h1>
+  <p>We hope you enjoy your purchase. If you have any questions or need assistance, please contact us.</p>
+  <p>Thank you for shopping with us!</p>
+`;
+
+// Reusable transporter
+const transporter = nodemailer.createTransport({
+  service: "gmail",
+  auth: {
+    user: "ramikhairi13@gmail.com",
+    pass: "buhq bsib wcpe gawf", 
+  },
+});
+
+// Function to send checkout email
+const sendCheckoutEmail = async (to, userName) => {
+  const mailOptions = {
+    from: "ramikhairi13@gmail.com",
+    to,
+    subject: "Order Confirmation - Thank You for Your Purchase!",
+    html: checkoutEmailTemplate(userName),
+  };
+
+  try {
+    const info = await transporter.sendMail(mailOptions);
+    console.log("Checkout email sent:", info.response);
+    return info;
+  } catch (error) {
+    console.error("Error sending checkout email:", error);
+    throw error;
+  }
+};
+
+// Function to send shipped email
+const sendShippedEmail = async (to, userName, trackingNumber) => {
+  const mailOptions = {
+    from: "ramikhairi13@gmail.com",
+    to,
+    subject: "Your Order Has Been Shipped!",
+    html: shippedEmailTemplate(userName, trackingNumber),
+  };
+
+  try {
+    const info = await transporter.sendMail(mailOptions);
+    console.log("Shipped email sent:", info.response);
+    return info;
+  } catch (error) {
+    console.error("Error sending shipped email:", error);
+    throw error;
+  }
+};
+
+// Function to send delivered email
+const sendDeliveredEmail = async (to, userName) => {
+  const mailOptions = {
+    from: "ramikhairi13@gmail.com",
+    to,
+    subject: "Your Order Has Been Delivered!",
+    html: deliveredEmailTemplate(userName),
+  };
+
+  try {
+    const info = await transporter.sendMail(mailOptions);
+    console.log("Delivered email sent:", info.response);
+    return info;
+  } catch (error) {
+    console.error("Error sending delivered email:", error);
+    throw error;
+  }
+};
 
 
 
@@ -52,7 +137,52 @@ cloudinary.config({
     }
   });
 
-
+  app.post("/send-checkout-email", async (req, res) => {
+    const { to, userName } = req.body;
+  
+    if (!to || !userName) {
+      return res.status(400).json({ error: "All fields (to, userName) are required." });
+    }
+  
+    try {
+      const info = await sendCheckoutEmail(to, userName);
+      res.status(200).json({ message: "Checkout email sent successfully!", info });
+    } catch (error) {
+      res.status(500).json({ error: "Failed to send checkout email." });
+    }
+  });
+  
+  // Endpoint for shipped email
+  app.post("/send-shipped-email", async (req, res) => {
+    const { to, userName, trackingNumber } = req.body;
+  
+    if (!to || !userName || !trackingNumber) {
+      return res.status(400).json({ error: "All fields (to, userName, trackingNumber) are required." });
+    }
+  
+    try {
+      const info = await sendShippedEmail(to, userName, trackingNumber);
+      res.status(200).json({ message: "Shipped email sent successfully!", info });
+    } catch (error) {
+      res.status(500).json({ error: "Failed to send shipped email." });
+    }
+  });
+  
+  // Endpoint for delivered email
+  app.post("/send-delivered-email", async (req, res) => {
+    const { to, userName } = req.body;
+  
+    if (!to || !userName) {
+      return res.status(400).json({ error: "All fields (to, userName) are required." });
+    }
+  
+    try {
+      const info = await sendDeliveredEmail(to, userName);
+      res.status(200).json({ message: "Delivered email sent successfully!", info });
+    } catch (error) {
+      res.status(500).json({ error: "Failed to send delivered email." });
+    }
+  });
 
 // API to handle adding a product
 app.post('/api/add-product', async (req, res) => {
@@ -370,8 +500,41 @@ app.get('/api/orders', async (req, res) => {
     }
 });
 
+app.get('/api/users2', async (req, res) => {
+    try {
+        // Fetch all users with their orders and related product details
+        const users = await prisma.user.findMany({
+            include: {
+                orders: {
+                    include: {
+                        orderItems: {
+                            include: {
+                                product: {
+                                    select: {
+                                        id: true,
+                                        name: true,
+                                        price: true,
+                                        description: true,
+                                        type: true,
+                                        size: true,
+                                    },
+                                },
+                            },
+                        },
+                    },
+                },
+            },
+            orderBy: {
+                createdAt: 'desc', // Sort by most recent users
+            },
+        });
 
-
+        res.json({ users });
+    } catch (error) {
+        console.error('Error fetching all users:', error);
+        res.status(500).json({ error: 'Failed to fetch all users' });
+    }
+});
 
 app.post('/api/place-order', async (req, res) => {
     try {
@@ -543,6 +706,48 @@ const uploadToCloudinary = async (imagePath) => {
         message: 'Error uploading files to Cloudinary!',
         error: error.message
       });
+    }
+  });
+  
+
+
+
+  app.post("/send-email", async (req, res) => {
+    const { to, subject, text } = req.body;
+  
+
+
+
+    
+    if (!to || !subject || !text) {
+      return res.status(400).json({ error: "All fields (to, subject, text) are required." });
+    }
+  
+    try {
+      const transporter = nodemailer.createTransport({
+        service: "gmail", 
+        auth: {
+          user: "ramikhairi13@gmail.com", 
+          pass: "buhq bsib wcpe gawf",
+        },
+      });
+  
+      const mailOptions = {
+        from: "ramikhairi13@gmail.com", 
+        to,
+        subject,
+        text,
+      };
+  
+      const info = await transporter.sendMail(mailOptions);
+  
+      res.status(200).json({
+        message: "Email sent successfully!",
+        info,
+      });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: "Failed to send email." });
     }
   });
   
