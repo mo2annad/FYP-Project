@@ -322,7 +322,6 @@ app.get('/api/orders/:userId', async (req, res) => {
                 createdAt: 'desc', // Sort by most recent orders
             },
         });
-
         res.json({ orders });
     } catch (error) {
         console.error('Error fetching orders for user:', error);
@@ -332,7 +331,44 @@ app.get('/api/orders/:userId', async (req, res) => {
 
 
 
+app.get('/api/orders', async (req, res) => {
+    try {
+        // Fetch all orders
+        const orders = await prisma.order.findMany({
+            include: {
+                orderItems: {
+                    include: {
+                        product: {
+                            select: {
+                                id: true,
+                                name: true,
+                                price: true,
+                                description: true,
+                                type: true,
+                                size: true,
+                            },
+                        },
+                    },
+                },
+                user: {
+                    select: {
+                        id: true,
+                        name: true,
+                        email: true,
+                    },
+                },
+            },
+            orderBy: {
+                createdAt: 'desc', // Sort by most recent orders
+            },
+        });
 
+        res.json({ orders });
+    } catch (error) {
+        console.error('Error fetching all orders:', error);
+        res.status(500).json({ error: 'Failed to fetch all orders' });
+    }
+});
 
 
 
@@ -398,44 +434,7 @@ app.post('/api/place-order', async (req, res) => {
     }
 });
 
-app.get('/api/orders', async (req, res) => {
-    try {
-        // Fetch all orders
-        const orders = await prisma.order.findMany({
-            include: {
-                orderItems: {
-                    include: {
-                        product: {
-                            select: {
-                                id: true,
-                                name: true,
-                                price: true,
-                                description: true,
-                                type: true,
-                                size: true,
-                            },
-                        },
-                    },
-                },
-                user: {
-                    select: {
-                        id: true,
-                        name: true,
-                        email: true,
-                    },
-                },
-            },
-            orderBy: {
-                createdAt: 'desc', // Sort by most recent orders
-            },
-        });
 
-        res.json({ orders });
-    } catch (error) {
-        console.error('Error fetching all orders:', error);
-        res.status(500).json({ error: 'Failed to fetch all orders' });
-    }
-});
 
 
 app.put('/api/orders/:id/status', async (req, res) => {

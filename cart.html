@@ -96,7 +96,7 @@
                     <td><strong id="final-total">$00.00</strong></td>
                 </tr>
             </table>
-            <button class="normal">Proceed to checkout</button>
+            <a href="checkout.html"><button class="normal">Proceed to checkout</button></a>
         </div>
     </section>
 
@@ -157,7 +157,7 @@
             loadCartItems();
             
             function loadCartItems() {
-                const cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+                const cartItems = JSON.parse(localStorage.getItem('cart')) || [];
                 const tbody = $('#cart-items');
                 const emptyMessage = $('#empty-cart-message');
                 const cartTable = $('#cart-table');

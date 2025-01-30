@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout</title>
+    <style>
+        .cart-item {
+            border-bottom: 1px solid #ccc;
+            padding: 10px 0;
+        }
+        .cart-item h5 {
+            margin: 5px 0;
+        }
+        .total {
+            font-size: 20px;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Checkout</h1>
+
+<div id="cart-items-container"></div>
+
+<div class="total">
+    Total: $<span id="total-price">0</span>
+</div>
+
+<!-- Checkout Button -->
+<button id="checkout-button">Proceed to Checkout</button>
+<script src="./placeOrder.js"></script>
+
+<script>
+        const cart = JSON.parse(localStorage.getItem("cart")) || [];
+        function displayCart() {
+        const cartItemsContainer = document.getElementById("cart-items-container");
+        const totalPriceElement = document.getElementById("total-price");
+
+        // Retrieve the cart from localStorage
+
+        // If cart is empty, display a message
+        if (cart.length === 0) {
+            cartItemsContainer.innerHTML = "<p>Your cart is empty.</p>";
+            totalPriceElement.innerText = "0";
+            return;
+        }
+
+        // Display each item in the cart
+        let totalPrice = 0;
+        cartItemsContainer.innerHTML = ''; // Clear previous cart items
+        cart.forEach(item => {
+            const cartItemDiv = document.createElement("div");
+            cartItemDiv.className = "cart-item";
+
+            cartItemDiv.innerHTML = `
+                <h5>${item.name}</h5>
+                <p>Price: $${item.price}</p>
+                <p>Description: ${item.description || "No description available"}</p>
+                <p>Quantity: 1</p>
+            `;
+
+            cartItemsContainer.appendChild(cartItemDiv);
+
+            totalPrice += parseFloat(item.price);
+        });
+
+        // Update the total price
+        totalPriceElement.innerText = totalPrice.toFixed(2);
+    }
+
+    // Proceed to checkout
+    document.getElementById("checkout-button").addEventListener("click",async function() {
+        await placeOrder(cart);
+
+        localStorage.removeItem("cart");
+
+    });
+
+    // Display the cart items when the page loads
+    window.addEventListener("load", displayCart);
+</script>
+
+</body>
+</html>

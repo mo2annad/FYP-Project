@@ -83,6 +83,8 @@ window.getAllOrders = async function getAllOrders(selectedStatus = 'all') {
                 <h3 class="order-id">Order ID: ${order.id} <span class="order-status">(${order.status})</span></h3>
                 <p class="order-total"><strong>Total Price:</strong> $${order.totalPrice}</p>
                 <p class="order-date"><strong>Ordered At:</strong> ${new Date(order.createdAt).toLocaleString()}</p>
+                <p class="order-date"><strong>User Name:</strong> ${order.user.name}</p>
+                <p class="order-date"><strong>User Email:</strong> ${order.user.email}</p>
                 <div class="order-items">
                     ${order.orderItems.map(item => `
                         <div class="order-item-card">
