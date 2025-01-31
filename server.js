@@ -154,12 +154,13 @@ cloudinary.config({
   
   // Endpoint for shipped email
   app.post("/send-shipped-email", async (req, res) => {
-    const { to, userName, trackingNumber } = req.body;
+    const { to, userName } = req.body;
   
-    if (!to || !userName || !trackingNumber) {
+    if (!to || !userName ) {
       return res.status(400).json({ error: "All fields (to, userName, trackingNumber) are required." });
     }
   
+    const trackingNumber = "xxxxxxxxxxx"
     try {
       const info = await sendShippedEmail(to, userName, trackingNumber);
       res.status(200).json({ message: "Shipped email sent successfully!", info });

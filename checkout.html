@@ -29,28 +29,29 @@
     Total: $<span id="total-price">0</span>
 </div>
 
+<!-- Email Input -->
+<label for="email">Enter your email:</label>
+<input type="email" id="email" placeholder="Enter your email" required>
+
 <!-- Checkout Button -->
 <button id="checkout-button">Proceed to Checkout</button>
 <script src="./placeOrder.js"></script>
 
 <script>
-        const cart = JSON.parse(localStorage.getItem("cart")) || [];
-        function displayCart() {
+    const cart = JSON.parse(localStorage.getItem("cart")) || [];
+    
+    function displayCart() {
         const cartItemsContainer = document.getElementById("cart-items-container");
         const totalPriceElement = document.getElementById("total-price");
 
-        // Retrieve the cart from localStorage
-
-        // If cart is empty, display a message
         if (cart.length === 0) {
             cartItemsContainer.innerHTML = "<p>Your cart is empty.</p>";
             totalPriceElement.innerText = "0";
             return;
         }
 
-        // Display each item in the cart
         let totalPrice = 0;
-        cartItemsContainer.innerHTML = ''; // Clear previous cart items
+        cartItemsContainer.innerHTML = ''; 
         cart.forEach(item => {
             const cartItemDiv = document.createElement("div");
             cartItemDiv.className = "cart-item";
@@ -63,26 +64,51 @@
             `;
 
             cartItemsContainer.appendChild(cartItemDiv);
-
             totalPrice += parseFloat(item.price);
         });
 
-        // Update the total price
         totalPriceElement.innerText = totalPrice.toFixed(2);
     }
 
-    // Proceed to checkout
-    document.getElementById("checkout-button").addEventListener("click",async function() {
+    async function sendCheckoutEmail(email) {
+        const myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+
+        const raw = JSON.stringify({
+            "to": email,
+            "userName": email.split("@")[0]
+        });
+
+        const requestOptions = {
+            method: "POST",
+            headers: myHeaders,
+            body: raw,
+            redirect: "follow"
+        };
+
+        try {
+            const response = await fetch("http://localhost:3000/send-checkout-email", requestOptions);
+            const result = await response.text();
+            console.log(result);
+        } catch (error) {
+            console.error("Error sending email:", error);
+        }
+    }
+
+    document.getElementById("checkout-button").addEventListener("click", async function() {
+        const email = document.getElementById("email").value;
+        if (!email) {
+            alert("Please enter your email before proceeding to checkout.");
+            return;
+        }
+
         await placeOrder(cart);
-
-
-        
+        await sendCheckoutEmail(email);
 
         localStorage.removeItem("cart");
-
+        alert("Order placed successfully! Check your email for confirmation.");
     });
 
-    // Display the cart items when the page loads
     window.addEventListener("load", displayCart);
 </script>
 

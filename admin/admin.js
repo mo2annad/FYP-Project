@@ -260,7 +260,8 @@ async function openEditPopup(product) {
     popup.innerHTML = `
         <div class="popup-content">
             <h3>Edit Product</h3>
-            
+              <label>ID:</label>
+            <input type="text" id="edit-id" value="${product.id}" />
             <label>Name:</label>
             <input type="text" id="edit-name" value="${product.name}" />
             <label>Size:</label>
@@ -343,6 +344,7 @@ async function openEditPopup(product) {
         const updatedImages = [...currentImages, ...uploadedImageUrls];
 console.log(updatedImages)
         const updatedProduct = {
+            id: document.getElementById('edit-id').value,
             name: document.getElementById('edit-name').value,
             size: document.getElementById('edit-size').value,
             price: parseFloat(document.getElementById('edit-price').value),
@@ -360,6 +362,7 @@ console.log(updatedImages)
 
 
 async function updateProduct(product) {
+    console.log(product)
     try {
         const response = await fetch(`http://localhost:3000/api/products/${product.id}`, {
             method: 'PUT',
@@ -394,6 +397,7 @@ document.getElementById('addProductForm').addEventListener('submit', function(e)
     if (this.hasAttribute('data-editing-card')) {
         // If editing, update the product
         const productId = this.getAttribute('data-editing-id');
+        
         updateProduct(productId, formData);
     } else {
         // If adding, create a new product
