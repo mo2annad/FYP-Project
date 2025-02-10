@@ -145,19 +145,6 @@ body {
 }
 
 /* Main container for the popup */
-.popup-container {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.8); /* Darker overlay */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-    animation: fadeIn 0.3s ease-in-out; /* Fade-in animation */
-}
 
 /* Content of the popup */
 .popup-content {
@@ -165,98 +152,11 @@ body {
     padding: 30px;
     border-radius: 15px;
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1); /* Larger, softer shadow */
-    text-align: center;
-    width: 80%;
+    width: 200%;
     max-width: 500px; /* Limit the max width */
 }
 
 /* Title of the popup */
-.popup-content h2 {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    font-size: 1.6rem;
-    color: #333;
-    margin-bottom: 15px;
-}
-
-/* Input fields */
-.popup-content input {
-    display: block;
-    margin: 15px auto;
-    padding: 12px 15px;
-    width: 100%;
-    max-width: 400px;
-    border-radius: 10px;
-    border: 1px solid #ddd;
-    font-size: 1rem;
-    transition: border 0.3s ease, box-shadow 0.3s ease; /* Smooth transitions */
-    box-sizing: border-box;
-}
-
-/* Input field focus effect */
-.popup-content input:focus {
-    border-color: #0066cc; /* Blue border on focus */
-    box-shadow: 0 0 8px rgba(0, 102, 204, 0.3); /* Blue glow effect */
-    outline: none;
-}
-
-/* Submit button */
-.popup-content button {
-    background-color: #0066cc;
-    color: #fff;
-    border: none;
-    padding: 12px 20px;
-    font-size: 1rem;
-    border-radius: 30px;
-    cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.3s ease;
-    margin-top: 20px;
-    width: 100%;
-    max-width: 400px;
-}
-
-/* Button hover effect */
-.popup-content button:hover {
-    background-color: #005bb5;
-    transform: translateY(-3px); /* Slight hover lift effect */
-}
-
-/* Close button (X) in the top-right corner */
-.popup-close {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    background-color: transparent;
-    border: none;
-    color: #333;
-    font-size: 1.5rem;
-    cursor: pointer;
-    transition: color 0.3s ease;
-}
-
-/* Close button hover effect */
-.popup-close:hover {
-    color: #0066cc;
-}
-
-/* Fade-in animation for the popup */
-@keyframes fadeIn {
-    0% {
-        opacity: 0;
-    }
-    100% {
-        opacity: 1;
-    }
-}
-
-/* Slide-up animation for the popup content */
-@keyframes slideUp {
-    0% {
-        transform: translateY(50px);
-    }
-    100% {
-        transform: translateY(0);
-    }
-}
 
 /* Base button styling for both Delete and Edit buttons */
 button {
@@ -275,6 +175,7 @@ button {
 }
 
 /* Edit button specific styles */
+
 .edit-button {
     color:rgba(0, 0, 0, 0.8);
     background-color: transparent;
@@ -300,16 +201,6 @@ button {
 button i {
     font-size: 1.2rem;
 }
-
-/* Optional: Add icons to buttons */
-.edit-button::before {
-    content: '✏️'; /* Pencil icon for editing */
-}
-
-.delete-button::before {
-    content: '🗑️'; /* Trash can icon for deleting */
-}
-
 
 .admin-profile {
     display: flex;
@@ -685,11 +576,8 @@ th {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background: #fff;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
     padding: 20px;
     z-index: 1000;
-    border-radius: 8px;
     max-width: 400px;
     width: 90%;
 }
@@ -697,28 +585,41 @@ th {
 .popup-content {
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    text-align: center;
+    gap: 10px; /* Reduced gap */
+    box-shadow: 0 0px 15px rgba(0, 0, 0, 0.2); /* Reduced box-shadow */
+    border-radius: 6px; /* Reduced border-radius */
+}
+
+.popup-content input{
+    padding: 7px;
+    margin-bottom: 5px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.popup-content button{
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 8px 16px;
+    cursor: pointer;
 }
 
 .popup-images {
     display: flex;
     flex-wrap: wrap;
-    gap: 10px;
-    margin-bottom: 15px;
+    gap: 10px; /* Enhanced gap */
+    margin-bottom: 15px; /* Enhanced margin-bottom */
 }
 
 .product-image {
-    width: 60px;
-    height: 60px;
+    width: 70px; /* Enhanced width */
+    height: 70px; /* Enhanced height */
     object-fit: cover;
-    border-radius: 5px;
-    border: 1px solid #ddd;
-}
-.popup-images {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    margin-bottom: 15px;
+    border-radius: 8px; /* Enhanced border-radius */
+    border: 2px solid #ddd; /* Enhanced border */
 }
 
 .image-wrapper {
@@ -729,19 +630,33 @@ th {
 }
 
 .product-image {
-    width: 80px;
-    height: 80px;
+    width: 70px; /* Enhanced width */
+    height: 70px; /* Enhanced height */
     object-fit: cover;
-    border-radius: 5px;
-    border: 1px solid #ddd;
+    border-radius: 8px; /* Enhanced border-radius */
+    border: 2px solid #ddd; /* Enhanced border */
 }
 
 .delete-image {
-    margin-top: 5px;
-    padding: 5px 10px;
-    background: red;
+    margin-top: 5px; /* Enhanced margin-top */
+    padding: 5px 10px; /* Enhanced padding */
+    background: #f44336; /* Enhanced background color */
     color: white;
     border: none;
-    border-radius: 3px;
+    border-radius: 4px; /* Enhanced border-radius */
     cursor: pointer;
+}
+
+
+/* Specific style for Cancel button */
+.popup-content button:hover {
+    background-color: #c82333; /* Darker shade on hover for Save button */
+}
+
+.popup-content button#save-button:hover{
+    background-color: #28a745;
+}
+
+.popup-content button#cancel-button:hover {
+    background-color: #c82333; /* Darker shade on hover for Cancel button */
 }

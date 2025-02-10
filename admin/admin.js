@@ -195,7 +195,7 @@ async function getAllProducts(selectedCategory = 'men') {
                 return;
             }
 
-            panel.innerHTML = '<table><thead><tr><th>Name</th><th>Size</th><th>Price</th><th>Type</th><th>Description</th><th>Actions</th></tr></thead><tbody></tbody></table>';
+            panel.innerHTML = '<table><thead><tr><th>Name</th><th>Size</th><th>Price</th><th>Type</th><th>Description</th><th>Images</th><th>Actions</th></tr></thead><tbody></tbody></table>';
             const tbody = panel.querySelector('tbody');
 
             const filteredProducts = selectedCategory === 'all'
@@ -270,12 +270,16 @@ async function openEditPopup(product) {
             <label>Type:</label>
             <input type="text" id="edit-type" value="${product.type || ''}" />
             
-            <h4>Manage Images</h4>
-            <div class="popup-images"></div>
-            <input type="file" id="new-images" multiple />
-            
-            <button id="save-button">Save</button>
-            <button id="cancel-button">Cancel</button>
+            <div>
+                <h4>Manage Images</h4>
+                <div class="popup-images"></div>
+                <input type="file" id="new-images" multiple />
+            </div>
+
+            <div>
+                <button id="save-button">Save</button>
+                <button id="cancel-button">Cancel</button>
+            </div>
         </div>
     `;
 
