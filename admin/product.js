@@ -15,8 +15,12 @@ document.querySelectorAll('.order-filter-btn').forEach(button => {
     });
 });
 
-
-window.changeOrderStatus = async function changeOrderStatus(orderId, newStatus) {
+window.changeOrderStatus = async function changeOrderStatus(orderId, newStatus, userEmail, userName) {
+    if (newStatus === 'Delivered' || newStatus === 'Shipped') {
+        const confirmation = confirm(`Are you sure you want to mark this order as ${newStatus}?`);
+        if (!confirmation) return;
+    }
+    
     try {
         const response = await fetch(`http://localhost:3000/api/orders/${orderId}/status`, {
             method: 'PUT',
@@ -34,12 +38,48 @@ window.changeOrderStatus = async function changeOrderStatus(orderId, newStatus) 
         const data = await response.json();
         console.log(`Order status updated to ${newStatus}:`, data);
 
+        // Send email notification
+        await sendStatusUpdateEmail(userEmail, userName, newStatus);
+
         await getAllOrders(); // Refresh the order list
     } catch (error) {
         console.error('Error updating order status:', error);
     }
 };
 
+async function sendStatusUpdateEmail(email, userName, status) {
+    try {
+        const myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+
+        const raw = JSON.stringify({
+            "to": email,
+            "userName": userName,
+        });
+
+        const requestOptions = {
+            method: "POST",
+            headers: myHeaders,
+            body: raw,
+            redirect: "follow"
+        };
+
+        if(status === "Shipped") {
+            const response = await fetch("http://localhost:3000/send-shipped-email", requestOptions);
+            const result = await response.text();
+            console.log(result);
+        }
+        else if(status === "Shipped") {
+            const response = await fetch("http://localhost:3000/send-delivered-email", requestOptions);
+            const result = await response.text();
+            console.log(result);
+        }
+        
+        
+    } catch (error) {
+        console.error("Error sending email:", error);
+    }
+}
 
 window.getAllOrders = async function getAllOrders(selectedStatus = 'all') {
     try {
@@ -83,6 +123,8 @@ window.getAllOrders = async function getAllOrders(selectedStatus = 'all') {
                 <h3 class="order-id">Order ID: ${order.id} <span class="order-status">(${order.status})</span></h3>
                 <p class="order-total"><strong>Total Price:</strong> $${order.totalPrice}</p>
                 <p class="order-date"><strong>Ordered At:</strong> ${new Date(order.createdAt).toLocaleString()}</p>
+                <p class="order-date"><strong>User Name:</strong> ${order.user.name}</p>
+                <p class="order-date"><strong>User Email:</strong> ${order.user.email}</p>
                 <div class="order-items">
                     ${order.orderItems.map(item => `
                         <div class="order-item-card">
@@ -90,20 +132,19 @@ window.getAllOrders = async function getAllOrders(selectedStatus = 'all') {
                             <p class="product-quantity"><strong>Quantity:</strong> ${item.quantity}</p>
                             <p class="product-subtotal"><strong>Subtotal:</strong> $${item.quantity * item.product.price}</p>
                         </div>
-                    `).join('')}
+                        `).join('')}
                     
                     <!-- Status Buttons -->
                     <div class="status-buttons">
-                        <button class="status-btn" onclick="changeOrderStatus(${order.id}, 'Pending')">Pending</button>
-                        <button class="status-btn" onclick="changeOrderStatus(${order.id}, 'Processing')">Processing</button>
-                        <button class="status-btn" onclick="changeOrderStatus(${order.id}, 'Shipped')">Shipped</button>
-                        <button class="status-btn" onclick="changeOrderStatus(${order.id}, 'Delivered')">Delivered</button>
-                        <button class="status-btn cancel-btn" onclick="changeOrderStatus(${order.id}, 'Canceled')">Cancel</button>
+                        <button class="status-btn" onclick="changeOrderStatus(${order.id}, 'Pending', '${order.user.email}', '${order.user.name}')">Pending</button>
+                        <button class="status-btn" onclick="changeOrderStatus(${order.id}, 'Processing', '${order.user.email}', '${order.user.name}')">Processing</button>
+                        <button class="status-btn" onclick="changeOrderStatus(${order.id}, 'Shipped', '${order.user.email}', '${order.user.name}')">Shipped</button>
+                        <button class="status-btn" onclick="changeOrderStatus(${order.id}, 'Delivered', '${order.user.email}', '${order.user.name}')">Delivered</button>
+                        <button class="status-btn cancel-btn" onclick="changeOrderStatus(${order.id}, 'Canceled', '${order.user.email}', '${order.user.name}')">Cancel</button>
                     </div>
                 </div>
             `;
-            
-
+                
                 // Add Delete button to remove order
                 const deleteOrderButton = document.createElement('button');
                 deleteOrderButton.textContent = 'Delete Order';
@@ -121,22 +162,3 @@ window.getAllOrders = async function getAllOrders(selectedStatus = 'all') {
         console.error("Error fetching or displaying orders:", error);
     }
 }
-
-// Function to delete an order
-async function deleteOrder(orderId) {
-    try {
-        const response = await fetch(`http://localhost:3000/api/orders/${orderId}`, {
-            method: 'DELETE'
-        });
-
-        if (response.ok) {
-            console.log('Order deleted successfully.');
-            await getAllOrders(); // Refresh the orders list
-        } else {
-            console.error(`Failed to delete order: ${response.status} ${response.statusText}`);
-        }
-    } catch (error) {
-        console.error("Error deleting order:", error);
-    }
-}
-

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout</title>
+    <style>
+        .cart-item {
+            border-bottom: 1px solid #ccc;
+            padding: 10px 0;
+        }
+        .cart-item h5 {
+            margin: 5px 0;
+        }
+        .total {
+            font-size: 20px;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Checkout</h1>
+
+<div id="cart-items-container"></div>
+
+<div class="total">
+    Total: $<span id="total-price">0</span>
+</div>
+
+<!-- Email Input -->
+<label for="email">Enter your email:</label>
+<input type="email" id="email" placeholder="Enter your email" required>
+
+<!-- Checkout Button -->
+<button id="checkout-button">Proceed to Checkout</button>
+<script src="./placeOrder.js"></script>
+
+<script>
+    const cart = JSON.parse(localStorage.getItem("cart")) || [];
+    
+    function displayCart() {
+        const cartItemsContainer = document.getElementById("cart-items-container");
+        const totalPriceElement = document.getElementById("total-price");
+
+        if (cart.length === 0) {
+            cartItemsContainer.innerHTML = "<p>Your cart is empty.</p>";
+            totalPriceElement.innerText = "0";
+            return;
+        }
+
+        let totalPrice = 0;
+        cartItemsContainer.innerHTML = ''; 
+        cart.forEach(item => {
+            const cartItemDiv = document.createElement("div");
+            cartItemDiv.className = "cart-item";
+
+            cartItemDiv.innerHTML = `
+                <h5>${item.name}</h5>
+                <p>Price: $${item.price}</p>
+                <p>Description: ${item.description || "No description available"}</p>
+                <p>Quantity: 1</p>
+            `;
+
+            cartItemsContainer.appendChild(cartItemDiv);
+            totalPrice += parseFloat(item.price);
+        });
+
+        totalPriceElement.innerText = totalPrice.toFixed(2);
+    }
+
+    async function sendCheckoutEmail(email) {
+        const myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+
+        const raw = JSON.stringify({
+            "to": email,
+            "userName": email.split("@")[0]
+        });
+
+        const requestOptions = {
+            method: "POST",
+            headers: myHeaders,
+            body: raw,
+            redirect: "follow"
+        };
+
+        try {
+            const response = await fetch("http://localhost:3000/send-checkout-email", requestOptions);
+            const result = await response.text();
+            console.log(result);
+        } catch (error) {
+            console.error("Error sending email:", error);
+        }
+    }
+
+    document.getElementById("checkout-button").addEventListener("click", async function() {
+        const email = document.getElementById("email").value;
+        if (!email) {
+            alert("Please enter your email before proceeding to checkout.");
+            return;
+        }
+
+        await placeOrder(cart);
+        await sendCheckoutEmail(email);
+
+        localStorage.removeItem("cart");
+        alert("Order placed successfully! Check your email for confirmation.");
+    });
+
+    window.addEventListener("load", displayCart);
+</script>
+
+</body>
+</html>
