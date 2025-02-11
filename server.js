@@ -676,6 +676,7 @@ const uploadToCloudinary = async (imagePath) => {
       use_filename: true,
       unique_filename: false,
       overwrite: true
+      
     };
   
     try {

@@ -1,6 +1,6 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-app.js";
-import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-auth.js";
+import { getAuth, signInWithEmailAndPassword, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-auth.js";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -18,6 +18,10 @@ const auth = getAuth(app);
 
 // Submit button
 const submit = document.getElementById('submit');
+const forgotPassword = document.getElementById('forgotPassword');
+
+
+
 submit.addEventListener("click", function (event) {
     event.preventDefault();
 
@@ -27,38 +31,31 @@ submit.addEventListener("click", function (event) {
 
     signInWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
-            // Signed in
-            const user = userCredential.user;
-
-            // Send user data to the backend
-            fetch("http://localhost:3000/api/users", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    id: user.uid,
-                    name: "test for now change later from login script",
-                    email: user.email,
-                }),
-            })
-                .then((response) => {
-                    if (response.ok) {
-                        alert("User successfully created in Prisma.");
-                        window.location.href = "/index.html";
-                    } else {
-                        return response.json().then((error) => {
-                            throw new Error(error.message);
-                        });
-                    }
-                })
-                .catch((error) => {
-                    alert("Error creating user in Prisma: " + error.message);
-                });
+            window.location.href = "/index.html";
+          
         })
         .catch((error) => {
             // Handle errors
             const errorMessage = error.message;
             alert(errorMessage);
         });
+});
+
+
+
+forgotPassword.addEventListener("click", function (event) {
+    event.preventDefault();
+    const email = document.getElementById('email').value;
+
+    console.log(email)
+    sendPasswordResetEmail(auth, email)
+  .then(() => {
+
+    alert("Password reset email sent!");
+  })
+  .catch((error) => {
+    const errorCode = error.code;
+    const errorMessage = error.message;
+    // ..
+  });
 });

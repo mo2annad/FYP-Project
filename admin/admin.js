@@ -241,7 +241,10 @@ async function openEditPopup(product) {
             <input type="number" id="edit-price" value="${product.price}" />
             <label>Type:</label>
             <input type="text" id="edit-type" value="${product.type || ''}" />
+            <label>Description:</label>
+            <input type="text" id="edit-description" value="${product.description || ''}" />
             
+
             <div>
                 <h4>Manage Images</h4>
                 <div class="popup-images"></div>
@@ -324,7 +327,7 @@ console.log(updatedImages)
             size: document.getElementById('edit-size').value,
             price: parseFloat(document.getElementById('edit-price').value),
             type: document.getElementById('edit-type').value,
-            description: "test for now change it later from admin.js",
+            description: document.getElementById('edit-description').value,
             ImagesUrl: updatedImages,
         };
 

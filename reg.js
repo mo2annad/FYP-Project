@@ -25,13 +25,37 @@ submit.addEventListener("click", function (event) {
     //inputs
     const email = document.getElementById('email').value;
     const password = document.getElementById('password').value;
-
+    const username = document.getElementById('username').value;
     createUserWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
         // Signed up 
         const user = userCredential.user;
-        alert("Account Created...")
-        window.location.href = "/index.html"
+
+        // Send user data to the backend
+        fetch("http://localhost:3000/api/users", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                id: user.uid,
+                name: username,
+                email: user.email,
+            }),
+        })
+            .then((response) => {
+                if (response.ok) {
+                    alert("User successfully created in Prisma.");
+                    window.location.href = "/index.html";
+                } else {
+                    return response.json().then((error) => {
+                        throw new Error(error.message);
+                    });
+                }
+            })
+            .catch((error) => {
+                alert("Error creating user in Prisma: " + error.message);
+            });
         // ...
     })
     .catch((error) => {
