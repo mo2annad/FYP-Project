@@ -105,35 +105,43 @@
     
     <script src="./placeOrder.js"></script>
     <script>
+        // Get cart data and user data from localStorage
         const cart = JSON.parse(localStorage.getItem("cart")) || [];
+        const userData = JSON.parse(localStorage.getItem("userData")) || {};
         
         function displayCart() {
             const cartItemsContainer = document.getElementById("cart-items-container");
             const totalPriceElement = document.getElementById("total-price");
-    
+            const emailInput = document.getElementById("email");
+
+            // Pre-fill email if user data exists
+            if (userData.email) {
+                emailInput.value = userData.email;
+            }
+
             if (cart.length === 0) {
                 cartItemsContainer.innerHTML = "<p>Your cart is empty.</p>";
                 totalPriceElement.innerText = "0";
                 return;
             }
-    
+
             let totalPrice = 0;
             cartItemsContainer.innerHTML = ''; 
             cart.forEach(item => {
                 const cartItemDiv = document.createElement("div");
                 cartItemDiv.className = "cart-item";
-    
+
                 cartItemDiv.innerHTML = `
                     <h5>${item.name}</h5>
                     <p>Price: $${item.price}</p>
-                    <p>Description: ${item.description || "No description available"}</p>
-                    <p>Quantity: 1</p>
+                    <p>Quantity: ${item.quantity || 1}</p>
+                    <p>Subtotal: $${(item.price * (item.quantity || 1)).toFixed(2)}</p>
                 `;
-    
+
                 cartItemsContainer.appendChild(cartItemDiv);
-                totalPrice += parseFloat(item.price);
+                totalPrice += parseFloat(item.price) * (item.quantity || 1);
             });
-    
+
             totalPriceElement.innerText = totalPrice.toFixed(2);
         }
     
@@ -169,11 +177,21 @@
                 return;
             }
     
-            await placeOrder(cart);
-            await sendCheckoutEmail(email);
-    
-            localStorage.removeItem("cart");
-            alert("Order placed successfully! Check your email for confirmation.");
+            try {
+                await placeOrder(cart);
+                await sendCheckoutEmail(email);
+
+                // Save email to localStorage for future use
+                localStorage.setItem("userData", JSON.stringify({ ...userData, email }));
+                
+                // Clear cart after successful order
+                localStorage.removeItem("cart");
+                alert("Order placed successfully! Check your email for confirmation.");
+                window.location.href = "index.html"; // Redirect to home page
+            } catch (error) {
+                console.error("Error during checkout:", error);
+                alert("There was an error processing your order. Please try again.");
+            }
         });
     
         window.addEventListener("load", displayCart);

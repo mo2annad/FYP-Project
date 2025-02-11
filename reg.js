@@ -31,11 +31,9 @@ submit.addEventListener("click", function (event) {
     .then((userCredential) => {
         const user = userCredential.user;
         
-        // Update the user's profile with the username
         return updateProfile(user, {
             displayName: username
         }).then(() => {
-            // After profile is updated, send data to Prisma
             return fetch("http://localhost:3000/api/users", {
                 method: "POST",
                 headers: {

@@ -21,8 +21,14 @@ async function fetchProductDetails(productId) {
         // Fill the product details in the page
         const productDetailContainer = document.getElementById('product-detail');
         productDetailContainer.innerHTML = `
-            <section id="prodetails" class="section-p1">
-        <img class="single-pro-image" src="${product.images[0]}" loading="lazy">
+        <section id="prodetails" class="section-p1">
+          <div class="single-pro-image">
+            <img loading="lazy" src="${product.images[0]}" width="100%" id="MainImg" alt="">
+            <div class="small-img-group">
+                ${product.images.map(image => `<div class="small-img-col"><img loading="lazy" src="${image}" width="100%" class="small-img" alt=""></div>`).join('')}    
+               
+            </div>
+        </div>
         <div class="single-pro-details">
             <h6>Thobe</h6>
             <h4>${product.name}</h4>
@@ -38,12 +44,67 @@ async function fetchProductDetails(productId) {
             <input type="number" value="1" id="product-quantity" min="1" onchange="updatePrice()"> 
             <h4>Product Details</h4>
             <span>${product.description}</span>
+            <button id="addToCartButton" class="normal">Add To Cart</button>
         </div>
     </section>
         `;
+        var MainImg = document.getElementById("MainImg");
+        var smalling = document.getElementsByClassName("small-img");
+        
+        smalling[0].onclick= function(){
+            MainImg.src = smalling[0].src;
+        }
+        smalling[1].onclick= function(){
+            MainImg.src = smalling[1].src;
+        }
+        smalling[2].onclick=function(){
+            MainImg.src = smalling[2].src;
+        }
+        smalling[3].onclick= function(){
+            MainImg.src = smalling[3].src;
+        }
 
-        // Fetch and display reviews
         fetchReviews(productId);
+
+        // Add click event listener after the button is created
+        document.getElementById('addToCartButton').addEventListener('click', () => {
+            const selectedSize = document.getElementById('product-size').value;
+            const quantity = parseInt(document.getElementById('product-quantity').value);
+
+            if (selectedSize === 'Select Size') {
+                alert('Please select a size');
+                return;
+            }
+
+            const cartItem = {
+                id: product.id,
+                name: product.name,
+                price: product.price,
+                size: selectedSize,
+                quantity: quantity,
+                image: product.images[0]
+            };
+
+            // Get existing cart or initialize new one
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+            // Check if product with same ID and size exists
+            const existingItemIndex = cart.findIndex(item => 
+                item.id === cartItem.id && item.size === cartItem.size
+            );
+
+            if (existingItemIndex !== -1) {
+                // Update quantity if item exists
+                cart[existingItemIndex].quantity += quantity;
+            } else {
+                // Add new item if it doesn't exist
+                cart.push(cartItem);
+            }
+
+            // Save to localStorage
+            localStorage.setItem('cart', JSON.stringify(cart));
+            alert('Product added to cart successfully!');
+        });
 
     } catch (error) {
         console.error("Error fetching product details:", error);
@@ -86,25 +147,9 @@ async function fetchReviews(productId) {
     } catch (error) {
         console.error('Error fetching reviews:', error);
     }
+
+    
 }
-
-// Function to handle adding the product to the cart
-document.getElementById('addToCartButton').addEventListener('click', () => {
-    const productId = getProductIdFromUrl();
-    const quantity = 1; // Default to 1, or allow the user to change it
-
-    if (productId) {
-        const product = {
-            productId,
-            quantity,
-        };
-
-        cart.push(product); // Add product to cart
-        console.log("Product added to cart:", product);
-    } else {
-        console.error("No product ID found");
-    }
-});
 
 document.getElementById('submit-review').addEventListener('click', async () => {
     const productId = getProductIdFromUrl(); // Get productId from URL
@@ -150,7 +195,9 @@ window.onload = () => {
     const productId = getProductIdFromUrl();
     if (productId) {
         fetchProductDetails(productId);
-    } else {
+    } else {A
         console.error("Product ID not provided");
     }
 };
+
+

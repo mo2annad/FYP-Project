@@ -21,7 +21,7 @@ export let currentUserId = null;
 onAuthStateChanged(auth, (user) => {
     if (user) {
       localStorage.setItem("currentUserId", user.uid); // Save to localStorage
-      console.log("User signed in with UID:", user.uid);
+      console.log("User signed in with UID:", user.displayName);
     } else {
       localStorage.removeItem("currentUserId"); // Remove from localStorage
       console.log("User is signed out");

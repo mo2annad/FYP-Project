@@ -201,18 +201,19 @@
                 loadCartItems();
             });
 
-            // Update quantity handler to work with localStorage
+            // Update quantity handler to properly store in localStorage
             $(document).on('change', '.quantity', function() {
                 const row = $(this).closest('tr');
                 const index = row.find('.delete-icon').data('index');
                 const quantity = parseInt($(this).val());
                 
-                let cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
-                cartItems[index].quantity = quantity;
-                cartItems[index].subtotal = cartItems[index].price * quantity;
+                let cartItems = JSON.parse(localStorage.getItem('cart')) || [];
+                if (cartItems[index]) {
+                    cartItems[index].quantity = quantity;
+                    localStorage.setItem('cart', JSON.stringify(cartItems));
+                }
                 
-                localStorage.setItem('cartItems', JSON.stringify(cartItems));
-                loadCartItems();
+                updateCartTotal();
             });
             
             // Initial calculation when page loads
@@ -292,6 +293,37 @@
                     // Update total
                     $('#subtotal table tr:last td:last strong').text('$' + total.toFixed(2));
                 }
+            });
+
+            // Add click handler for checkout button
+            $('a[href="checkout.html"]').on('click', function(e) {
+                // Get current cart state
+                const cartItems = [];
+                $('#cart-items tr').each(function() {
+                    const row = $(this);
+                    const item = {
+                        name: row.find('.product-link').text(),
+                        price: parseFloat(row.find('.price').text().replace('$', '')),
+                        quantity: parseInt(row.find('.quantity').val()),
+                        image: row.find('img').attr('src'),
+                        size: row.find('td:eq(3)').text(),
+                        productUrl: row.find('.product-link').attr('href'),
+                        subtotal: parseFloat(row.find('.subtotal').text().replace('$', ''))
+                    };
+                    cartItems.push(item);
+                });
+
+                // Store final cart state and totals
+                const cartState = {
+                    items: cartItems,
+                    subtotal: parseFloat($('#subtotal table tr:first td:last').text().replace('$', '')),
+                    shipping: $('#shipping-cost').text() === 'Free' ? 0 : parseFloat($('#shipping-cost').text().replace('$', '')),
+                    discount: $('#discount-row').length ? parseFloat($('#discount-row td:last').text().replace('-$', '')) : 0,
+                    total: parseFloat($('#final-total').text().replace('$', ''))
+                };
+
+                localStorage.setItem('cart', JSON.stringify(cartItems));
+                localStorage.setItem('cartState', JSON.stringify(cartState));
             });
         });
     </script>

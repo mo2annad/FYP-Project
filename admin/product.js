@@ -69,7 +69,7 @@ async function sendStatusUpdateEmail(email, userName, status) {
             const result = await response.text();
             console.log(result);
         }
-        else if(status === "Shipped") {
+        else if(status === "Delivered") {
             const response = await fetch("http://localhost:3000/send-delivered-email", requestOptions);
             const result = await response.text();
             console.log(result);

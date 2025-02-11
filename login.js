@@ -43,8 +43,9 @@ submit.addEventListener("click", function (event) {
 
 onAuthStateChanged(auth, (user) => {
     if (user) {
-      localStorage.setItem("currentUserId", user.uid); // Save to localStorage
+      localStorage.setItem("currentUserId", user.uid); 
       console.log("User signed in with UID:", user.displayName);
+      alert("the user is already logged in")
     } else {
       localStorage.removeItem("currentUserId"); // Remove from localStorage
       console.log("User is signed out");

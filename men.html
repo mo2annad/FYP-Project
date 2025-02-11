@@ -111,12 +111,7 @@
        let allProducts = []; // To store all products globally for filtering
 let cart = [];
 
-function addToCart(productId, productName, productPrice, quantity) {
-    productId = parseInt(productId);
-    const product = { productId, quantity };
-    cart.push(product);
-    console.log('Product added to cart:', product);
-}
+
 
 async function fetchMenProducts() {
     try {
