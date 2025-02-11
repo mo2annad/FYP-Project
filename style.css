@@ -2241,7 +2241,7 @@ footer .copyright {
     margin: 20px 0; /* Margin for spacing */
 }
 
-input[type="email"] {
+input[type="email"], input[type="texts"], input[type="tel"] {
     width: 20%; /* Full width input */
     padding: 10px; /* Padding for input */
     margin: 10px 0; /* Margin for spacing */
@@ -2249,7 +2249,17 @@ input[type="email"] {
     border-radius: 4px; /* Rounded corners */
 }
 
-button {
+
+
+.checkout{
+    padding: 20px;
+}
+.email{
+    width: 100%;
+    margin-left: 20px;
+}
+
+.email button{
     background-color: #28a745; /* Green background for button */
     color: white; /* White text */
     border: none; /* No border */
@@ -2258,16 +2268,10 @@ button {
     cursor: pointer; /* Pointer cursor on hover */
     font-size: 1em; /* Font size */
     transition: 0.2s ease;
+    margin: auto; /* Center the button horizontally */
+    display: block; /* Display block to remove extra space around the button */
 }
 
-button:hover {
+.email button:hover {
     background-color: #218838; /* Darker green on hover */
-}
-
-.checkout{
-    padding: 20px;
-}
-.email{
-    width: 100%;
-    margin-left: 20px;
 }
