@@ -27,6 +27,11 @@ body {
     background-color: var(--primary-color);
     color: white;
     padding: 20px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    z-index: 1000;
 }
 
 .logo {
@@ -64,6 +69,7 @@ body {
 .main-content {
     flex: 1;
     padding: 20px;
+    margin-left: 250px;
 }
 
 /* New Header Styles */
@@ -530,7 +536,7 @@ form button {
 }
 
 .status-btn:nth-child(4) {
-    background-color: #4caf50; /* Delivered: Green */
+    background-color: #95af4c; /* Delivered: Green */
     color: white;
 }
 
@@ -571,6 +577,7 @@ th {
     background-color:#007bff; /* Set active button color */
     color: white; /* Set text color for active button */
 }
+
 .popup-container {
     position: fixed;
     top: 50%;
@@ -592,8 +599,7 @@ th {
 }
 
 .popup-content input{
-    padding: 7px;
-    margin-bottom: 5px;
+    padding: 5px;
     border: 1px solid #ddd;
     border-radius: 5px;
 }
@@ -603,7 +609,7 @@ th {
     color: white;
     border: none;
     border-radius: 5px;
-    padding: 8px 16px;
+    padding: 6px 14px;
     cursor: pointer;
 }
 
@@ -654,9 +660,112 @@ th {
 }
 
 .popup-content button#save-button:hover{
-    background-color: #28a745;
+    background-color: #2835a7;
 }
 
 .popup-content button#cancel-button:hover {
     background-color: #c82333; /* Darker shade on hover for Cancel button */
 }
+
+/* styles.css */
+h1 {
+    color: #333;
+}
+/* Users container */
+#users-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* User card styles */
+.user-card {
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin: 10px;
+    padding: 15px;
+    width: 80%;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* User header styles */
+.user-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+}
+
+/* Toggle button styles */
+.toggle-btn {
+    background: none;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+/* Orders container styles */
+.orders-container {
+    display: none; /* Hidden by default */
+    margin-top: 10px;
+}
+
+/* Order card styles */
+.order-card {
+    background: #f9f9f9;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin: 5px 0;
+    padding: 10px;
+}
+
+/* Order header styles */
+.order-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+}
+
+/* Order items container styles */
+.order-items-container {
+    display: none; /* Hidden by default */
+    margin-top: 10px;
+}
+
+/* Order item styles */
+.order-item {
+    background: #fff;
+    border: 1px solid #eee;
+    border-radius: 3px;
+    margin: 5px 0;
+    padding: 10px;
+}
+
+/* Product details styles */
+.product-details {
+    margin-top: 5px;
+    font-size: 14px;
+    color: #555;
+}
+
+.search-bar {
+    position: relative;
+    width: 100%; /* Full width */
+    max-width: 250px; /* Limit the maximum width */
+}
+
+.search-bar input {
+    width: 100%; /* Full width */
+    padding: 10px 40px 10px 20px; /* Padding for input */
+    border: 1px solid #ccc; /* Border color */
+    border-radius: 6px; /* Rounded corners */
+    font-size: 16px; /* Font size */
+    transition: border-color 0.3s ease; /* Transition for border color */
+}
+
+.search-bar input:focus {
+    border-color: #085181; /* Change border color on focus */
+    outline: none; /* Remove default outline */
+}   

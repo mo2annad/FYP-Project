@@ -4,73 +4,52 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Users and Orders</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-        }
-        .user-card {
-            margin-bottom: 20px;
-            padding: 15px;
-            border: 1px solid #ccc;
-            border-radius: 8px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        }
-        .user-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            cursor: pointer;
-        }
-        .user-header h2 {
-            margin: 0;
-        }
-        .toggle-btn {
-            background: none;
-            border: none;
-            font-size: 1.5em;
-            cursor: pointer;
-        }
-        .orders-container {
-            margin-top: 10px;
-            display: none; /* Hidden by default */
-        }
-        .order-card {
-            margin: 10px 0;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            background-color: #f9f9f9;
-        }
-        .order-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            cursor: pointer;
-        }
-        .order-header h3 {
-            margin: 0;
-        }
-        .order-items-container {
-            margin-top: 10px;
-            display: none; /* Hidden by default */
-        }
-        .order-item {
-            margin: 10px 0;
-            padding: 10px;
-            border: 1px solid #eee;
-            border-radius: 5px;
-            background-color: #fff;
-        }
-        .product-details {
-            margin-left: 20px;
-            padding: 10px;
-            border-left: 2px solid #ccc;
-        }
-    </style>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
-    <h1>Users and Their Orders</h1>
+    <div class="admin-container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="logo">Admin Panel</div>
+            <nav>
+                <ul>
+                    <li><a href="#dashboard" onclick="location.href='index.html'"><i class="fas fa-home"></i> Dashboard</a></li>
+                    <li><a href="#products" onclick="location.href='product.html'"><i class="fas fa-box"></i> Products</a></li>
+                    <li><a href="#contacts" class="active" onclick="location.href='contacts.html'"><i class="fas fa-address-book"></i>contacts</a></li>
+                </ul>
+            </nav>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <div class="header">
+                <div class="search-bar">
+                    <input 
+                        type="text" 
+                        id="searchInput" 
+                        placeholder="Search..." 
+                        oninput="filterProducts()"
+                    />
+                </div>
+                <div class="header-right">
+                    <div class="notification-icon">
+                        <i class="fas fa-bell"></i>
+                    </div>
+                    <div class="admin-profile">
+                        <img src="/img/icon.png" alt="Admin">
+                        <div class="admin-info">
+                            <span class="admin-name">Mohannad Abdul Wahed</span>
+                            <span class="admin-role">Super Admin</span>
+                        </div>
+                    </div>
+                </div>
+            </div> 
+
+            <!-- Products Section -->
+            <div class="section" id="products-section">
+
+                <h1>Users and Their Orders</h1>
     <div id="users-container"></div>
 
     <script>
@@ -185,4 +164,4 @@
         fetchUsers();
     </script>
 </body>
-</html>
+</html> 

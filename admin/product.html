@@ -16,11 +16,8 @@
             <nav>
                 <ul>
                     <li><a href="#dashboard" onclick="location.href='index.html'"><i class="fas fa-home"></i> Dashboard</a></li>
-                    <li><a href="#products" onclick="location.href='product.html'" class="active"><i class="fas fa-box"></i> Products</a></li>
-                    <li><a href="#featured"><i class="fas fa-star"></i> Featured</a></li>
-                    <li><a href="#promotions"><i class="fas fa-percentage"></i> Promotions</a></li>
-                    <li><a href="#contacts"><i class="fas fa-address-book"></i> Contacts</a></li>
-                    <li><a href="#notifications"><i class="fas fa-bell"></i> Notifications</a></li>
+                    <li><a href="#products" class="active" onclick="location.href='product.html'"><i class="fas fa-box"></i> Products</a></li>
+                    <li><a href="#contacts" onclick="location.href='contacts.html'"><i class="fas fa-address-book"></i>contacts</a></li>
                 </ul>
             </nav>
         </div>
@@ -28,13 +25,16 @@
         <div class="main-content">
             <div class="header">
                 <div class="search-bar">
-                    <input type="text" placeholder="Search...">
-                    <i class="fas fa-search"></i>
+                    <input 
+                        type="text" 
+                        id="searchInput" 
+                        placeholder="Search..." 
+                        oninput="filterProducts()"
+                    />
                 </div>
                 <div class="header-right">
                     <div class="notification-icon">
                         <i class="fas fa-bell"></i>
-                        <span class="notification-count">3</span>
                     </div>
                 <div class="admin-profile">
                     <img src="/img/icon.png" alt="Admin">

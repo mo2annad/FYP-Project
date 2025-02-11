@@ -62,7 +62,7 @@ button.normal {
     cursor: pointer;
     border: none ;  
     outline: none;
-    transition: 0.2s;
+    transition: 0.2s ease;
 }
 
 button.white {
@@ -74,7 +74,7 @@ button.white {
     cursor: pointer;
     border: 1px solid #fff;
     outline: none;
-    transition: 0.2s;
+    transition: 0.2s ease;
 }
 
 body {
@@ -314,7 +314,7 @@ body {
         rgba(255, 255, 255, 0.2),
         transparent
     );
-    transition: 0.5s;
+    transition: 0.5s ease;
 }
 
 #product1 .pro:hover::before {
@@ -711,7 +711,7 @@ footer .copyright {
 #prodetails .single-pro-details.stars i {
     cursor: pointer;
     color: #ccc;
-    transition: color 0.2s;
+    transition: color 0.2s ease;
 }
 
 #prodetails .single-pro-details .stars i:hover{
@@ -767,7 +767,7 @@ footer .copyright {
     background-color: unset;
     font-weight: 700;
     position: relative;
-    transition: 0.3s;
+    transition: 0.3s ease;
     border: unset;
 }
 
@@ -1434,7 +1434,7 @@ footer .copyright {
         background-color: #E3E6F3;
         box-shadow: 0 40px 60px rgba(0, 0, 0, 0.1);
         padding: 80px 0 0 10px;
-        transition: 0.3s;
+        transition: 0.3s ease;
     }
     #navbar.active {
         right: 0px;
@@ -1600,6 +1600,9 @@ footer .copyright {
     
     #cart table img {
         width: 60px;
+    }
+    .search-bar {
+        max-width: 300px; /* Adjust max width for smaller screens */
     }
 }
 
@@ -1831,6 +1834,13 @@ footer .copyright {
         font-size: 12px;
         padding: 7px 10px;
     }
+    .search-bar {
+        max-width: 100%; /* Full width on very small screens */
+    }
+    .search-bar input {
+        padding: 8px 30px 8px 15px; /* Adjust padding for smaller screens */
+        font-size: 14px; /* Smaller font size */
+    }
 }
 
 @media (max-width: 330px) {
@@ -1987,19 +1997,16 @@ footer .copyright {
     #cart .delete-icon {
         font-size: 14px;
     }
+    .search-bar input {
+        padding: 6px 20px 6px 10px; /* Further adjust padding */
+        font-size: 12px; /* Even smaller font size */
+    }
 }
 /* Basic reset */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-}
-
-/* General Body Styles */
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f9;
-    padding: 20px;
 }
 
 /* Product Detail Container */
@@ -2118,6 +2125,12 @@ body {
     color: #085181;
 }
 
+.add-to-cart-btn{
+    border: none;
+    background-color: transparent;
+    font-size: 17px;
+}
+
 #details{
     display: flex;
     justify-content: space-between;
@@ -2193,3 +2206,68 @@ body {
     color: #333;
 }
 
+/* Add this to style.css */
+.search-bar {
+    position: relative;
+    width: 100%; /* Full width */
+    max-width: 250px; /* Limit the maximum width */
+}
+
+.search-bar input {
+    width: 100%; /* Full width */
+    padding: 10px 40px 10px 20px; /* Padding for input */
+    border: 1px solid #ccc; /* Border color */
+    border-radius: 100px; /* Rounded corners */
+    font-size: 16px; /* Font size */
+    transition: border-color 0.3s ease; /* Transition for border color */
+}
+
+.search-bar input:focus {
+    border-color: #085181; /* Change border color on focus */
+    outline: none; /* Remove default outline */
+}   
+
+#cart-items-container {
+    background-color: white; /* White background for cart items */
+    padding: 20px; /* Padding for spacing */
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    margin: 20px; /* Margin for spacing */
+}
+
+.total {
+    font-size: 1.5em; /* Larger font size for total */
+    text-align: center; /* Center the total */
+    margin: 20px 0; /* Margin for spacing */
+}
+
+input[type="email"] {
+    width: 20%; /* Full width input */
+    padding: 10px; /* Padding for input */
+    margin: 10px 0; /* Margin for spacing */
+    border: 1px solid #ccc; /* Light border */
+    border-radius: 4px; /* Rounded corners */
+}
+
+button {
+    background-color: #28a745; /* Green background for button */
+    color: white; /* White text */
+    border: none; /* No border */
+    padding: 10px 20px; /* Padding for button */
+    border-radius: 4px; /* Rounded corners */
+    cursor: pointer; /* Pointer cursor on hover */
+    font-size: 1em; /* Font size */
+    transition: 0.2s ease;
+}
+
+button:hover {
+    background-color: #218838; /* Darker green on hover */
+}
+
+.checkout{
+    padding: 20px;
+}
+.email{
+    width: 100%;
+    margin-left: 20px;
+}

@@ -434,3 +434,15 @@ function togglePasswordVisibility(inputId) {
         icon.classList.add("fa-eye");
     }
 }
+
+function filterProducts() {
+    const searchInput = document.getElementById('searchInput');
+    const query = searchInput.value.toLowerCase();
+
+    const filteredProducts = allProducts.filter(product => 
+        product.name.toLowerCase().includes(query) || 
+        (product.description && product.description.toLowerCase().includes(query))
+    );
+
+    displayProducts(filteredProducts);
+}

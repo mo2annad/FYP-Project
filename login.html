@@ -28,6 +28,14 @@
         <a href="./index.html"><img loading="lazy" src="img/logo.png" class="logo" alt=""></a>
         <div>
             <ul id="navbar">
+                <div class="search-bar">
+                    <input 
+                        type="text" 
+                        id="searchInput" 
+                        placeholder="Search for products..." 
+                        oninput="filterProducts()"
+                    />
+                </div>
                 <li><a href="index.html">Home</a></li>
                 <li class="dropdown">
                     <a>Products <i class="fa fa-angle-down"></i></a>
@@ -100,28 +108,17 @@
         <div class="col">
             <h4>About</h4>
             <a href="./about.html">About us</a>
-            <a href="#">Delivery Information</a>
+            <a href="./checkout.html">Delivery Information</a>
             <a href="#">Privacy Policy</a>
             <a href="#">Terms & Conditions</a>
             <a href="./contact.html">Contact Us</a>
         </div>
         <div class="col">
             <h4>My Account</h4>
-            <a href="#newsletter">Sign In</a>
+            <a href="./login.html">Sign In</a>
             <a href="./cart.html">View Cart</a>
             <a href="./cart.html">My Wishkust</a>
-            <a href="#">Teack My Order</a>
-            <a href="#">Help</a>
-        </div>
-        <div class="col install">
-            <h4>Install App</h4>
-            <p>From App Store or Google Play</p>
-            <div class="row">
-                <img loading="lazy" src="img/pay/app.jpg" alt="">
-                <img loading="lazy" src="img/pay/play.jpg" alt="">
-            </div>
-            <p>Secured Payment Gateways </p>
-            <img loading="lazy" src="img/pay/pay.png" alt="">
+            <a href="./contact.html">Help</a>
         </div>
         <div class="copyright">
             <p>© 2024 Yemenis. All rights reserved.</p>

@@ -2,26 +2,53 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Checkout</title>
-    <style>
-        .cart-item {
-            border-bottom: 1px solid #ccc;
-            padding: 10px 0;
-        }
-        .cart-item h5 {
-            margin: 5px 0;
-        }
-        .total {
-            font-size: 20px;
-            font-weight: bold;
-            margin-top: 20px;
-        }
-    </style>
+    <title>Yemenis</title>
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"/>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="img/icon.png">
 </head>
+
 <body>
 
-<h1>Checkout</h1>
+    <section id="header">
+        <a href="./index.html"><img loading="lazy" src="img/logo.png" class="logo" alt=""></a>
+        <div>
+            <ul id="navbar">
+                <div class="search-bar">
+                    <input 
+                        type="text" 
+                        id="searchInput" 
+                        placeholder="Search for products..." 
+                        oninput="filterProducts()"
+                    />
+                </div>
+                <li><a href="index.html">Home</a></li>
+                <li class="dropdown">
+                    <a>Products <i class="fa fa-angle-down"></i></a>
+                    <div class="dropdown-content">
+                        <a href="./men.html">Men</a>
+                        <a href="./women.html">Women</a>
+                        <a href="./accessories.html">Accessories</a>
+                        <a href="./shawl.html">Shawl</a>
+                    </div>
+                </li>
+                <li><a href="blog.html">Blog</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="./login.html">Login</a></li>
+                <li id="lg-bag"><a class="active" href="cart.html"><i class="fa fa-shopping-cart cart"></i></a></li>
+                <a href="#" id="close"><i class="far fa-times"></i></a>
+            </ul>
+        </div>
+        <div id="mobile">
+            <a class="active" href="cart.html"><i class="fa fa-shopping-cart cart"></i></a>
+            <i id="bar" class="fa fa-outdent"></i>
+        </div>
+    </section>
+
+    <h1 class="checkout">Checkout</h1>
 
 <div id="cart-items-container"></div>
 
@@ -30,87 +57,126 @@
 </div>
 
 <!-- Email Input -->
-<label for="email">Enter your email:</label>
-<input type="email" id="email" placeholder="Enter your email" required>
+<div class="email">
+    <label for="email">Enter your email:</label>
+    <input type="email" id="email" placeholder="Enter your email" required>
+    <!-- Checkout Button -->
+    <button id="checkout-button">Proceed to Checkout</button>
 
-<!-- Checkout Button -->
-<button id="checkout-button">Proceed to Checkout</button>
-<script src="./placeOrder.js"></script>
+</div>
 
-<script>
-    const cart = JSON.parse(localStorage.getItem("cart")) || [];
+    <footer class="section-p1">
+        <div class="col">
+            <img loading="lazy" class="logo" src="img/logo.png" alt="">
+            <h4>Contact</h4>
+            <p><strong>Address: </strong> Hostel City Street 5, Islamabad, Pakistan</p>
+            <p><strong>Phone:</strong> (+92) 317 7739457</p>
+            <p><strong>Hours:</strong> 10:00-18:00, Mon - Sat</p>
+            <div class="follow">
+                <h4>Follow us</h4>
+                <div class="icon">
+                    <i class="fab fa-facebook-f"></i>
+                    <i class="fab fa-twitter"></i>
+                    <i class="fab fa-instagram"></i>
+                    <i class="fab fa-linkedin"></i>
+                    <i class="fab fa-youtube"></i>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <h4>About</h4>
+            <a href="./about.html">About us</a>
+            <a href="./checkout.html">Delivery Information</a>
+            <a href="#">Privacy Policy</a>
+            <a href="#">Terms & Conditions</a>
+            <a href="./contact.html">Contact Us</a>
+        </div>
+        <div class="col">
+            <h4>My Account</h4>
+            <a href="./login.html">Sign In</a>
+            <a href="./cart.html">View Cart</a>
+            <a href="./cart.html">My Wishkust</a>
+            <a href="./contact.html">Help</a>
+        </div>
+        <div class="copyright">
+            <p>© 2024 Yemenis. All rights reserved.</p>
+        </div>
+    </footer>
     
-    function displayCart() {
-        const cartItemsContainer = document.getElementById("cart-items-container");
-        const totalPriceElement = document.getElementById("total-price");
-
-        if (cart.length === 0) {
-            cartItemsContainer.innerHTML = "<p>Your cart is empty.</p>";
-            totalPriceElement.innerText = "0";
-            return;
+    <script src="./placeOrder.js"></script>
+    <script>
+        const cart = JSON.parse(localStorage.getItem("cart")) || [];
+        
+        function displayCart() {
+            const cartItemsContainer = document.getElementById("cart-items-container");
+            const totalPriceElement = document.getElementById("total-price");
+    
+            if (cart.length === 0) {
+                cartItemsContainer.innerHTML = "<p>Your cart is empty.</p>";
+                totalPriceElement.innerText = "0";
+                return;
+            }
+    
+            let totalPrice = 0;
+            cartItemsContainer.innerHTML = ''; 
+            cart.forEach(item => {
+                const cartItemDiv = document.createElement("div");
+                cartItemDiv.className = "cart-item";
+    
+                cartItemDiv.innerHTML = `
+                    <h5>${item.name}</h5>
+                    <p>Price: $${item.price}</p>
+                    <p>Description: ${item.description || "No description available"}</p>
+                    <p>Quantity: 1</p>
+                `;
+    
+                cartItemsContainer.appendChild(cartItemDiv);
+                totalPrice += parseFloat(item.price);
+            });
+    
+            totalPriceElement.innerText = totalPrice.toFixed(2);
         }
-
-        let totalPrice = 0;
-        cartItemsContainer.innerHTML = ''; 
-        cart.forEach(item => {
-            const cartItemDiv = document.createElement("div");
-            cartItemDiv.className = "cart-item";
-
-            cartItemDiv.innerHTML = `
-                <h5>${item.name}</h5>
-                <p>Price: $${item.price}</p>
-                <p>Description: ${item.description || "No description available"}</p>
-                <p>Quantity: 1</p>
-            `;
-
-            cartItemsContainer.appendChild(cartItemDiv);
-            totalPrice += parseFloat(item.price);
+    
+        async function sendCheckoutEmail(email) {
+            const myHeaders = new Headers();
+            myHeaders.append("Content-Type", "application/json");
+    
+            const raw = JSON.stringify({
+                "to": email,
+                "userName": email.split("@")[0]
+            });
+    
+            const requestOptions = {
+                method: "POST",
+                headers: myHeaders,
+                body: raw,
+                redirect: "follow"
+            };
+    
+            try {
+                const response = await fetch("http://localhost:3000/send-checkout-email", requestOptions);
+                const result = await response.text();
+                console.log(result);
+            } catch (error) {
+                console.error("Error sending email:", error);
+            }
+        }
+    
+        document.getElementById("checkout-button").addEventListener("click", async function() {
+            const email = document.getElementById("email").value;
+            if (!email) {
+                alert("Please enter your email before proceeding to checkout.");
+                return;
+            }
+    
+            await placeOrder(cart);
+            await sendCheckoutEmail(email);
+    
+            localStorage.removeItem("cart");
+            alert("Order placed successfully! Check your email for confirmation.");
         });
-
-        totalPriceElement.innerText = totalPrice.toFixed(2);
-    }
-
-    async function sendCheckoutEmail(email) {
-        const myHeaders = new Headers();
-        myHeaders.append("Content-Type", "application/json");
-
-        const raw = JSON.stringify({
-            "to": email,
-            "userName": email.split("@")[0]
-        });
-
-        const requestOptions = {
-            method: "POST",
-            headers: myHeaders,
-            body: raw,
-            redirect: "follow"
-        };
-
-        try {
-            const response = await fetch("http://localhost:3000/send-checkout-email", requestOptions);
-            const result = await response.text();
-            console.log(result);
-        } catch (error) {
-            console.error("Error sending email:", error);
-        }
-    }
-
-    document.getElementById("checkout-button").addEventListener("click", async function() {
-        const email = document.getElementById("email").value;
-        if (!email) {
-            alert("Please enter your email before proceeding to checkout.");
-            return;
-        }
-
-        await placeOrder(cart);
-        await sendCheckoutEmail(email);
-
-        localStorage.removeItem("cart");
-        alert("Order placed successfully! Check your email for confirmation.");
-    });
-
-    window.addEventListener("load", displayCart);
-</script>
-
+    
+        window.addEventListener("load", displayCart);
+    </script>
 </body>
 </html>

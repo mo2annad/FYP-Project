@@ -16,6 +16,14 @@
         <a href="./index.html"><img loading="lazy" src="img/logo.png" class="logo" alt=""></a>
         <div>
             <ul id="navbar">
+                <div class="search-bar">
+                    <input 
+                        type="text" 
+                        id="searchInput" 
+                        placeholder="Search for products..." 
+                        oninput="filterProducts()"
+                    />
+                </div>
                 <li><a href="index.html">Home</a></li>
                 <li class="dropdown">
                     <a>Products <i class="fa fa-angle-down"></i></a>
@@ -211,18 +219,6 @@
         </div>
     </section>
 
-    <section id="newsletter" class="section-p1 section-m1">
-        <div class="newstext">
-            <h4>Sign Up For Newsletters</h4>
-            <p>Get E-mail updates about our latest shop and <span>special offers.</span>
-            </p>
-        </div>
-        <div class="form">
-            <input type="email" name="email" id="newsletter-email" placeholder="Your email address" required>
-            <button class="normal" onclick="submitNewsletter()">Sign Up</button>
-        </div>
-    </section>
-
     <footer class="section-p1">
         <div class="col">
             <img loading="lazy" class="logo" src="img/logo.png" alt="">
@@ -244,28 +240,17 @@
         <div class="col">
             <h4>About</h4>
             <a href="./about.html">About us</a>
-            <a href="#">Delivery Information</a>
+            <a href="./checkout.html">Delivery Information</a>
             <a href="#">Privacy Policy</a>
             <a href="#">Terms & Conditions</a>
             <a href="./contact.html">Contact Us</a>
         </div>
         <div class="col">
             <h4>My Account</h4>
-            <a href="#newsletter">Sign In</a>
+            <a href="./login.html">Sign In</a>
             <a href="./cart.html">View Cart</a>
             <a href="./cart.html">My Wishkust</a>
-            <a href="#">Teack My Order</a>
-            <a href="#">Help</a>
-        </div>
-        <div class="col install">
-            <h4>Install App</h4>
-            <p>From App Store or Google Play</p>
-            <div class="row">
-                <img loading="lazy" src="img/pay/app.jpg" alt="">
-                <img loading="lazy" src="img/pay/play.jpg" alt="">
-            </div>
-            <p>Secured Payment Gateways </p>
-            <img loading="lazy" src="img/pay/pay.png" alt="">
+            <a href="./contact.html">Help</a>
         </div>
         <div class="copyright">
             <p>© 2024 Yemenis. All rights reserved.</p>

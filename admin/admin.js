@@ -73,36 +73,6 @@ async function addProduct(formData) {
     const productsGrid = document.querySelector('.products-grid');
     const activeCategory = document.querySelector('.category-btn.active')?.dataset.category || 'default';
 
-    // // Create new product card
-    // const productCard = document.createElement('div');
-    // productCard.className = 'product-card';
-    // productCard.setAttribute('data-category', activeCategory);
-    // productCard.setAttribute('data-id', Date.now()); // Use timestamp as unique ID
-
-    // productCard.innerHTML = `
-    //     <div class="product-details">
-    //         <h3>${formData.get('name')}</h3>
-    //         <p class="price">$ ${formData.get('price')}</p>
-    //         <p class="size">Size: ${formData.get('size')}</p>
-    //         <p class="description">${formData.get('description')}</p>
-    //         <div class="admin-actions">
-    //             <button class="edit-btn" onclick="editProduct(this)">
-    //                 <i class="fas fa-edit"></i> Edit
-    //             </button>
-    //             <button class="delete-btn" onclick="deleteProduct(this)">
-    //                 <i class="fas fa-trash"></i> Delete
-    //             </button>
-    //         </div>
-    //     </div>
-    // `;
-
-    // // Add the new card to the grid
-    // productsGrid.appendChild(productCard);
-
-    // // Prepare product data for API submission
-
-
-
     const productData = {
         name: formData.get('name'),
         price: formData.get('price'),
@@ -218,15 +188,16 @@ async function getAllProducts(selectedCategory = 'men') {
                     <td>$${product.price}</td>
                     <td>${product.type || 'N/A'}</td>
                     <td>${product.description || 'N/A'}</td>
-                `;
+                    <td>`;
                 if(product.images.length > 0){
                     product.images.forEach(image => {
                         const productImage = document.createElement('img')
                         productImage.src = image
                         productImage.width = 50;
-                        row.appendChild(productImage)
+                        row.querySelector('td:last-child').appendChild(productImage)
                     })
                 }
+                row.innerHTML += `</td>`;
             console.log(product)
                 editButton.textContent = 'Edit';
                 editButton.className = 'edit-button';
@@ -524,16 +495,14 @@ function editProduct(button) {
     showAddProductModal();
 }
 
-// Function to update product
-// function updateProduct(productId, formData) {
-//     const productCard = document.querySelector(`.product-card[data-id="${productId}"]`);
-//     if (productCard) {
-//         productCard.querySelector('h3').textContent = formData.get('name');
-//         productCard.querySelector('.price').textContent = `$ ${formData.get('price')}`;
-//         productCard.querySelector('.size').textContent = `Size: ${formData.get('size')}`;
-//         productCard.querySelector('.description').textContent = formData.get('description');
-        
-//         // Save updated product to localStorage
-//         saveProductCards();
-//     }
-// } 
+function filterProducts() {
+    const searchInput = document.getElementById('searchInput');
+    const query = searchInput.value.toLowerCase();
+
+    const filteredProducts = allProducts.filter(product => 
+        product.name.toLowerCase().includes(query) || 
+        (product.description && product.description.toLowerCase().includes(query))
+    );
+
+    displayProducts(filteredProducts);
+}
