@@ -1,6 +1,6 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-app.js";
-import { getAuth, signInWithEmailAndPassword, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-auth.js";
+import { getAuth, signInWithEmailAndPassword, sendPasswordResetEmail , onAuthStateChanged} from "https://www.gstatic.com/firebasejs/11.0.2/firebase-auth.js";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -41,7 +41,15 @@ submit.addEventListener("click", function (event) {
         });
 });
 
-
+onAuthStateChanged(auth, (user) => {
+    if (user) {
+      localStorage.setItem("currentUserId", user.uid); // Save to localStorage
+      console.log("User signed in with UID:", user.displayName);
+    } else {
+      localStorage.removeItem("currentUserId"); // Remove from localStorage
+      console.log("User is signed out");
+    }
+  });
 
 forgotPassword.addEventListener("click", function (event) {
     event.preventDefault();

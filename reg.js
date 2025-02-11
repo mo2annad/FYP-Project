@@ -2,7 +2,7 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-app.js";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
-import { getAuth,  createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-auth.js";
+import { getAuth,  createUserWithEmailAndPassword, updateProfile } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-auth.js";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -26,42 +26,50 @@ submit.addEventListener("click", function (event) {
     const email = document.getElementById('email').value;
     const password = document.getElementById('password').value;
     const username = document.getElementById('username').value;
+
     createUserWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
-        // Signed up 
         const user = userCredential.user;
-
-        // Send user data to the backend
-        fetch("http://localhost:3000/api/users", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                id: user.uid,
-                name: username,
-                email: user.email,
-            }),
-        })
-            .then((response) => {
-                if (response.ok) {
-                    alert("User successfully created in Prisma.");
-                    window.location.href = "/index.html";
-                } else {
-                    return response.json().then((error) => {
-                        throw new Error(error.message);
-                    });
-                }
-            })
-            .catch((error) => {
-                alert("Error creating user in Prisma: " + error.message);
+        
+        // Update the user's profile with the username
+        return updateProfile(user, {
+            displayName: username
+        }).then(() => {
+            // After profile is updated, send data to Prisma
+            return fetch("http://localhost:3000/api/users", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    id: user.uid,
+                    name: username,
+                    email: user.email,
+                }),
             });
-        // ...
+        });
+    })
+    .then((response) => {
+        if (response.ok) {
+            alert("User successfully created!");
+            window.location.href = "/index.html";
+        } else {
+            return response.json().then((error) => {
+                throw new Error(error.message);
+            });
+        }
     })
     .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        alert(errorMessage)
-        // ..
+        alert(error.message);
     });
 })
+
+onAuthStateChanged(auth, (user) => {
+    if (user) {
+      localStorage.setItem("currentUserId", user.uid); // Save to localStorage
+      console.log("User signed in with UID:", user.displayName);
+    } else {
+      localStorage.removeItem("currentUserId"); // Remove from localStorage
+      console.log("User is signed out");
+    }
+  });
