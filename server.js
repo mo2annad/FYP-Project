@@ -112,7 +112,7 @@ cloudinary.config({
     secure: true
   });
 
-
+//middleware for file handling 
   const storage = multer.diskStorage({
     destination: function (req, file, cb) {
       cb(null, 'uploads/'); 
@@ -125,7 +125,7 @@ cloudinary.config({
   const upload = multer({
     storage: storage,
     fileFilter: function (req, file, cb) {
-      const fileTypes = /jpeg|jpg|png|gif/;
+      const fileTypes = /jpeg|jpg|png|webp|gif/;
       const extName = fileTypes.test(path.extname(file.originalname).toLowerCase());
       const mimeType = fileTypes.test(file.mimetype);
   
@@ -366,6 +366,8 @@ app.post('/api/users', async (req, res) => {
 
 app.get('/api/products', async (req, res) => {
     try {
+
+  
         const { type } = req.query; // Retrieve the type filter from query parameters
         const products = await prisma.product.findMany({
             where: {
@@ -562,7 +564,7 @@ app.post('/api/place-order', async (req, res) => {
             });
 
             if (!product) {
-                return res.status(404).json({ error: `Product with id ${productId} not found` });
+                return res.status(404).json({ error: `Product with id ${productId} not found انت فتال فتال فتال` });
             }
 
             const itemPrice = product.price * quantity;
