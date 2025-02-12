@@ -2244,12 +2244,11 @@ footer .copyright {
 input[type="email"], input[type="texts"], input[type="tel"] {
     width: 20%; /* Full width input */
     padding: 10px; /* Padding for input */
-    margin: 10px 0; /* Margin for spacing */
+    margin: 10px 4px; /* Margin for spacing */
     border: 1px solid #ccc; /* Light border */
     border-radius: 4px; /* Rounded corners */
+    
 }
-
-
 
 .checkout{
     padding: 20px;
@@ -2270,6 +2269,7 @@ input[type="email"], input[type="texts"], input[type="tel"] {
     transition: 0.2s ease;
     margin: auto; /* Center the button horizontally */
     display: block; /* Display block to remove extra space around the button */
+    margin-bottom: 20px;
 }
 
 .email button:hover {
