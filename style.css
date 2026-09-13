@@ -1292,93 +1292,157 @@ footer .copyright {
 }
 /* End Intro Animation */
 
-/* login page */
+/* Login page */
+body:has(#registration) {
+    background: linear-gradient(135deg, #f5f8fa 0%, #e7f0f2 100%);
+}
+
 #registration {
-    max-width: 400px;
-    margin: 0 auto;
+    width: min(460px, calc(100% - 40px));
+    max-width: none;
+    margin: 72px auto 88px;
+    padding: 42px 44px 34px;
+    background: rgba(255, 255, 255, 0.94);
+    border: 1px solid rgba(8, 81, 129, 0.12);
+    border-radius: 16px;
+    box-shadow: 0 22px 55px rgba(8, 81, 129, 0.14);
+}
+
+#registration h2 {
+    margin-bottom: 30px;
+    color: #123047;
+    font-family: var(--heading-font);
+    font-size: 40px;
+    font-weight: 600;
+    line-height: 1.1;
+    text-align: center;
 }
 
 #registration .form-group {
-    margin-bottom: 15px; /* Space between form groups */
+    margin-bottom: 20px;
+}
+
+#registration label {
+    display: block;
+    margin-bottom: 8px;
+    color: #334b5c;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+}
+
+#registration input {
+    width: 100%;
+    padding: 13px 14px;
+    color: #123047;
+    background: #f7fafb;
+    border: 1px solid #d5e1e6;
+    border-radius: 8px;
+    outline: none;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+
+#registration input:focus {
+    background: #fff;
+    border-color: #2683ad;
+    box-shadow: 0 0 0 4px rgba(38, 131, 173, 0.12);
+}
+
+#registration .password-container {
+    position: relative;
+}
+
+#registration .password-container input {
+    padding-right: 44px;
+}
+
+#registration .password-container .toggle-password {
+    position: absolute;
+    top: 50%;
+    right: 15px;
+    color: #6b8290;
+    cursor: pointer;
+    transform: translateY(-50%);
+    transition: color 0.2s ease;
+}
+
+#registration .password-container .toggle-password:hover {
+    color: #085181;
 }
 
 #registration .remmberMeCheckbox {
     display: flex;
-    justify-content: space-between;
-} 
+    align-items: center;
+    justify-content: flex-start;
+    margin: 2px 0 18px;
+}
+
+#registration .remmberMeCheckbox label {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    margin: 0;
+    color: #607582;
+    font-size: 12px;
+    font-weight: 400;
+}
+
+#registration .remmberMeCheckbox input {
+    width: 16px;
+    height: 16px;
+    margin: 0;
+    accent-color: #085181;
+}
 
 #registration .forgot-password {
-    margin-bottom: 15px; /* Space between form groups */
+    margin: -2px 0 22px;
+    text-align: right;
 }
 
-#registration .remmberMeCheckbox input{
-    width: 15px; /* Adjust width of checkbox */
-    height: 15px; /* Adjust height of checkbox */
-    margin-left: 10px;
-} 
-
-#registration .forgot-password a{
+#registration .forgot-password a,
+#registration .register-link a {
+    color: #085181;
+    font-size: 13px;
+    font-weight: 600;
     text-decoration: none;
-    color: #0056b3;
 }
 
-#registration label {
-    display: block; /* Make labels block elements */
-    margin-bottom: 5px; /* Space between label and input */
-    font-weight: bold; /* Bold labels */
-}
-
-#registration input {
-    width: 100%; /* Full width inputs */
-    padding: 10px; /* Padding inside inputs */
-    border: 1px solid #ccc; /* Light border */
-    border-radius: 4px; /* Rounded corners for inputs */
+#registration .forgot-password a:hover,
+#registration .register-link a:hover {
+    color: #d06b3c;
 }
 
 #registration button {
-    background-color: #007bff; /* Button color */
-    color: white; /* Text color */
-    padding: 10px 15px; /* Button padding */
-    border: none; /* No border */
-    border-radius: 4px; /* Rounded corners */
-    cursor: pointer; /* Pointer cursor on hover */
+    width: 100%;
+    padding: 14px 18px;
+    color: #fff;
+    background: #085181;
+    border: 0;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 #registration button:hover {
-    background-color: #0056b3; /* Darker button color on hover */
+    background: #063d62;
+    box-shadow: 0 8px 18px rgba(8, 81, 129, 0.22);
+    transform: translateY(-1px);
 }
 
-#registration h2 {
-    font-size: 36px; /* Increased font size */
-    margin-bottom: 20px; /* Space below the heading */
-    color: #222; /* Heading color */
-    text-align: center; /* Center the heading */
-    font-weight: bold; /* Make the heading bold */
+#registration .register-link {
+    margin-top: 24px;
+    text-align: center;
 }
 
-.login-link a,
-.register-link a{
-    text-decoration: none;
-    color:#0056b3;
+#registration .register-link p {
+    margin: 0;
+    color: #6b7d86;
+    font-size: 13px;
 }
-
-.password-container {
-    position: relative;
-}
-
-.password-container input {
-    padding-right: 40px; /* Space for the icon */
-}
-
-.password-container .toggle-password {
-    position: absolute;
-    right: 10px;
-    top: 50%;
-    transform: translateY(-50%);
-    cursor: pointer;
-    color: #1a1a1a; /* Change color as needed */
-}
-/*end login*/
+/* End login page */
 
 /* Dropdown Menu - Desktop */
 .dropdown {
