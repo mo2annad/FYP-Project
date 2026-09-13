@@ -174,15 +174,17 @@
                 cartAdd.show();
                 
                 cartItems.forEach((item, index) => {
+                    const image = item.image || (Array.isArray(item.images) ? item.images[0] : '');
+                    const quantity = Number(item.quantity) || 1;
                     const row = `
                         <tr>
                             <td><a class="delete-icon" href="#" data-index="${index}"><i class="far fa-times-circle"></i></a></td>
-                            <td><img loading="lazy" src="${item.image}" alt=""></td>
+                            <td><img loading="lazy" src="${image}" alt="${item.name || 'Product'}"></td>
                             <td><a href="${item.productUrl}" class="product-link">${item.name}</a></td>
                             <td>${item.size || 'N/A'}</td>
                             <td class="price">$${item.price}</td>
-                            <td><input type="number" value="${item.quantity}" class="quantity" min="1"></td>
-                            <td class="subtotal">$${(item.price * item.quantity).toFixed(2)}</td>
+                            <td><input type="number" value="${quantity}" class="quantity" min="1"></td>
+                            <td class="subtotal">$${(item.price * quantity).toFixed(2)}</td>
                         </tr>
                     `;
                     tbody.append(row);
@@ -195,9 +197,9 @@
             $(document).on('click', '.delete-icon', function(e) {
                 e.preventDefault();
                 const index = $(this).data('index');
-                let cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+                let cartItems = JSON.parse(localStorage.getItem('cart')) || [];
                 cartItems.splice(index, 1);
-                localStorage.setItem('cartItems', JSON.stringify(cartItems));
+                localStorage.setItem('cart', JSON.stringify(cartItems));
                 loadCartItems();
             });
 
